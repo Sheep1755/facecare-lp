@@ -19,7 +19,7 @@
       width: 100%;
       z-index: 1000;
       background: #f8f9fa;
-      padding: 20px 20px; /* 高さを元の1/2に */
+      padding: 20px 20px;
       text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
@@ -51,7 +51,7 @@
       padding: 40px 20px;
     }
 
-    /* ★ ヘッダーに隠れないように調整 */
+    /* ヘッダーの高さ分余白を追加 */
     section:first-of-type {
       margin-top: 100px;
     }
@@ -70,6 +70,47 @@
       text-align: center;
       padding: 20px;
       font-size: 0.9em;
+    }
+
+    /* 特徴3つのカラム */
+    .features-summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .feature-box {
+      background-color: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s;
+    }
+
+    .feature-box:hover {
+      transform: translateY(-4px);
+    }
+
+    .feature-box h3 {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .feature-box p {
+      font-size: 0.95em;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .features-summary {
+        flex-direction: column;
+      }
     }
 
     @media (max-width: 600px) {
@@ -96,6 +137,22 @@
       <a href="#">今すぐ試してみる</a>
     </div>
   </header>
+
+  <!-- 特徴ブロック（無印風3カラム） -->
+  <section class="features-summary">
+    <div class="feature-box">
+      <h3>100%自然由来成分</h3>
+      <p>厳選された植物由来エキスで肌への刺激を最小限に。</p>
+    </div>
+    <div class="feature-box">
+      <h3>皮膚科医との共同開発</h3>
+      <p>敏感肌に悩む方のために開発された安心処方。</p>
+    </div>
+    <div class="feature-box">
+      <h3>無添加・無香料</h3>
+      <p>余計な成分を排除し、肌への負担を極力軽減。</p>
+    </div>
+  </section>
 
   <section class="features">
     <h2>特徴</h2>
