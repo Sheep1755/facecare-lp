@@ -55,7 +55,7 @@
       margin-top: 100px;
     }
 
-    /* === Carousel Styles === */
+    /* === フェードスライダー === */
     .carousel-container {
       position: relative;
       max-width: 960px;
@@ -65,13 +65,19 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .carousel-track {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
+    .carousel-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 0;
     }
 
-    .carousel-slide {
-      min-width: 100%;
+    .carousel-slide.active {
+      opacity: 1;
+      z-index: 1;
     }
 
     .carousel-slide img {
@@ -205,14 +211,13 @@
     </div>
   </header>
 
-  <!-- スライダー -->
+  <!-- フェードスライダー -->
   <section class="carousel-container">
-    <div class="carousel-track" id="carouselTrack">
-      <div class="carousel-slide"><img src="AdobeStock_272372012_Preview.jpeg" alt="製品1"></div>
-      <div class="carousel-slide"><img src="AdobeStock_480492977_Preview.jpeg" alt="製品2"></div>
-      <div class="carousel-slide"><img src="AdobeStock_491859925_Preview.jpeg" alt="製品3"></div>
-      <div class="carousel-slide"><img src="AdobeStock_548184349_Preview.jpeg" alt="製品4"></div>
-    </div>
+    <div class="carousel-slide active"><img src="AdobeStock_272372012_Preview.jpeg" alt="製品1"></div>
+    <div class="carousel-slide"><img src="AdobeStock_480492977_Preview.jpeg" alt="製品2"></div>
+    <div class="carousel-slide"><img src="AdobeStock_491859925_Preview.jpeg" alt="製品3"></div>
+    <div class="carousel-slide"><img src="AdobeStock_548184349_Preview.jpeg" alt="製品4"></div>
+
     <button class="carousel-button left" onclick="moveSlide(-1)">‹</button>
     <button class="carousel-button right" onclick="moveSlide(1)">›</button>
     <div class="carousel-dots" id="carouselDots"></div>
@@ -264,7 +269,6 @@
   </footer>
 
   <script>
-    const track = document.getElementById('carouselTrack');
     const slides = document.querySelectorAll('.carousel-slide');
     const dotsContainer = document.getElementById('carouselDots');
     let currentIndex = 0;
@@ -287,20 +291,22 @@
     }
 
     function moveToSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
       currentIndex = index;
-      track.style.transform = `translateX(-${currentIndex * 100}%)`;
       updateDots();
     }
 
     function moveSlide(step) {
-      currentIndex = (currentIndex + step + slides.length) % slides.length;
-      moveToSlide(currentIndex);
+      const nextIndex = (currentIndex + step + slides.length) % slides.length;
+      moveToSlide(nextIndex);
     }
 
     function startAutoSlide() {
       autoSlideInterval = setInterval(() => {
         moveSlide(1);
-      }, 5000); // 5秒ごとにスライド
+      }, 5000);
     }
 
     function stopAutoSlide() {
@@ -311,7 +317,6 @@
     createDots();
     startAutoSlide();
 
-    // ユーザーが操作したら一時停止（任意）
     document.querySelector('.carousel-container').addEventListener('mouseenter', stopAutoSlide);
     document.querySelector('.carousel-container').addEventListener('mouseleave', startAutoSlide);
   </script>
