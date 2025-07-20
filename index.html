@@ -55,11 +55,11 @@
       margin-top: 100px;
     }
 
-    /* === フェードスライダー + 大サイズ === */
+    /* === Carousel Styles === */
     .carousel-container {
       position: relative;
       max-width: 960px;
-      height: 500px; /* ← 画像の高さを大きく */
+      height: 330px; /* 高さを2/3に */
       margin: 40px auto;
       overflow: hidden;
       border-radius: 12px;
@@ -73,20 +73,19 @@
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 1s ease;
-      z-index: 0;
-    }
-
-    .carousel-slide.active {
-      opacity: 1;
-      z-index: 1;
+      transition: opacity 1s ease-in-out;
     }
 
     .carousel-slide img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* トリミングで見栄えを維持 */
+      object-fit: cover;
       display: block;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      z-index: 1;
     }
 
     .carousel-button {
@@ -130,7 +129,6 @@
       background: #555;
     }
 
-    /* === Features and Footer === */
     .features, .reviews, .faq {
       max-width: 1000px;
       margin: 0 auto;
@@ -187,10 +185,6 @@
       .features-summary {
         flex-direction: column;
       }
-
-      .carousel-container {
-        height: 320px;
-      }
     }
 
     @media (max-width: 600px) {
@@ -206,10 +200,6 @@
         font-size: 0.8em;
         padding: 6px 12px;
       }
-
-      .carousel-container {
-        height: 260px;
-      }
     }
   </style>
 </head>
@@ -222,15 +212,15 @@
     </div>
   </header>
 
-  <!-- フェードスライダー -->
+  <!-- スライダー -->
   <section class="carousel-container">
     <div class="carousel-slide active"><img src="AdobeStock_272372012_Preview.jpeg" alt="製品1"></div>
     <div class="carousel-slide"><img src="AdobeStock_480492977_Preview.jpeg" alt="製品2"></div>
     <div class="carousel-slide"><img src="AdobeStock_491859925_Preview.jpeg" alt="製品3"></div>
     <div class="carousel-slide"><img src="AdobeStock_548184349_Preview.jpeg" alt="製品4"></div>
 
-    <button class="carousel-button left" onclick="moveSlide(-1)">‹</button>
-    <button class="carousel-button right" onclick="moveSlide(1)">›</button>
+    <button class="carousel-button left" onclick="changeSlide(-1)">‹</button>
+    <button class="carousel-button right" onclick="changeSlide(1)">›</button>
     <div class="carousel-dots" id="carouselDots"></div>
   </section>
 
@@ -290,7 +280,7 @@
         const dot = document.createElement('span');
         dot.classList.add('carousel-dot');
         if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => moveToSlide(index));
+        dot.addEventListener('click', () => showSlide(index));
         dotsContainer.appendChild(dot);
       });
     }
@@ -301,22 +291,21 @@
       dots[currentIndex].classList.add('active');
     }
 
-    function moveToSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
       currentIndex = index;
+      slides[currentIndex].classList.add('active');
       updateDots();
     }
 
-    function moveSlide(step) {
-      const nextIndex = (currentIndex + step + slides.length) % slides.length;
-      moveToSlide(nextIndex);
+    function changeSlide(step) {
+      currentIndex = (currentIndex + step + slides.length) % slides.length;
+      showSlide(currentIndex);
     }
 
     function startAutoSlide() {
       autoSlideInterval = setInterval(() => {
-        moveSlide(1);
+        changeSlide(1);
       }, 5000);
     }
 
