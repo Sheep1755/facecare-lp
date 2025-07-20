@@ -51,35 +51,27 @@
       padding: 40px 20px;
     }
 
-    /* ヘッダーの高さ分余白を追加 */
     section:first-of-type {
-      margin-top: 100px;
+      margin-top: 100px; /* ヘッダー分の余白 */
     }
 
     .features, .reviews, .faq {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
-    .feature-item, .review-item, .faq-item {
-      margin-bottom: 24px;
+    .features-heading {
+      font-size: 1.6em;
+      margin-bottom: 30px;
+      text-align: left;
+      color: #222;
     }
 
-    footer {
-      background: #f1f1f1;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-    }
-
-    /* 特徴3つのカラム */
     .features-summary {
       display: flex;
       justify-content: space-between;
       gap: 20px;
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
+      flex-wrap: wrap;
     }
 
     .feature-box {
@@ -89,6 +81,7 @@
       flex: 1;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       transition: transform 0.3s;
+      text-align: center;
     }
 
     .feature-box:hover {
@@ -105,6 +98,17 @@
       font-size: 0.95em;
       color: #555;
       line-height: 1.6;
+    }
+
+    .feature-item, .review-item, .faq-item {
+      margin-bottom: 24px;
+    }
+
+    footer {
+      background: #f1f1f1;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
     }
 
     @media (max-width: 768px) {
@@ -138,20 +142,22 @@
     </div>
   </header>
 
-  <!-- 特徴ブロック（無印風3カラム） -->
-  <section class="features-summary">
-    <h2>特徴</h2>
-    <div class="feature-box">
-      <h3>100%自然由来成分</h3>
-      <p>厳選された植物由来エキスで肌への刺激を最小限に。</p>
-    </div>
-    <div class="feature-box">
-      <h3>皮膚科医との共同開発</h3>
-      <p>敏感肌に悩む方のために開発された安心処方。</p>
-    </div>
-    <div class="feature-box">
-      <h3>無添加・無香料</h3>
-      <p>余計な成分を排除し、肌への負担を極力軽減。</p>
+  <!-- 特徴セクション -->
+  <section class="features">
+    <h2 class="features-heading">特徴</h2>
+    <div class="features-summary">
+      <div class="feature-box">
+        <h3>100%自然由来成分</h3>
+        <p>厳選された植物由来エキスで肌への刺激を最小限に。</p>
+      </div>
+      <div class="feature-box">
+        <h3>皮膚科医との共同開発</h3>
+        <p>敏感肌に悩む方のために開発された安心処方。</p>
+      </div>
+      <div class="feature-box">
+        <h3>無添加・無香料</h3>
+        <p>余計な成分を排除し、肌への負担を極力軽減。</p>
+      </div>
     </div>
   </section>
 
