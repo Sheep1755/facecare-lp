@@ -52,7 +52,7 @@
     }
 
     section:first-of-type {
-      margin-top: 100px; /* ヘッダー分の余白 */
+      margin-top: 100px;
     }
 
     .features, .reviews, .faq {
@@ -111,6 +111,18 @@
       font-size: 0.9em;
     }
 
+    .feature-image {
+      text-align: center;
+      margin: 40px 0 20px;
+    }
+
+    .feature-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
     @media (max-width: 768px) {
       .features-summary {
         flex-direction: column;
@@ -141,6 +153,11 @@
       <a href="#">今すぐ試してみる</a>
     </div>
   </header>
+
+  <!-- 画像セクション -->
+  <section class="feature-image">
+    <img src="AdobeStock_272372012_Preview.jpeg" alt="フェイスケア製品のイメージ" class="feature-img">
+  </section>
 
   <!-- 特徴セクション -->
   <section class="features">
