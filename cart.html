@@ -83,3 +83,46 @@
   <header>
     <h1>ショッピングカート</h1>
   </header>
+
+  <main>
+    <table id="cartTable">
+      <thead>
+        <tr>
+          <th>商品名</th>
+          <th>価格</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 商品が動的に挿入されます -->
+      </tbody>
+    </table>
+
+    <p class="total" id="totalPrice">合計: ¥0</p>
+
+    <a href="checkout.html" class="checkout-btn">購入へ進む</a>
+  </main>
+
+  <footer>
+    &copy; 2025 フェイスケアブランド株式会社
+  </footer>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const tableBody = document.querySelector('#cartTable tbody');
+    const totalDisplay = document.getElementById('totalPrice');
+    let total = 0;
+
+    cart.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.name}</td>
+        <td>¥${item.price.toLocaleString()}</td>
+      `;
+      total += item.price;
+      tableBody.appendChild(row);
+    });
+
+    totalDisplay.textContent = `合計: ¥${total.toLocaleString()}`;
+  </script>
+</body>
+</html>
