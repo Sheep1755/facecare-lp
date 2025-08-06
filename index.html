@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>フェイスケアブランドLP</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      color: #333;
+      background-color: #fff;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: #f8f9fa;
+      padding: 20px 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 1.3em;
+      margin: 0;
+    }
+
+    header p {
+      margin-top: 6px;
+      font-size: 0.85em;
+    }
+
+    .cta {
+      margin-top: 12px;
+    }
+
+    .cta a {
+      background: #e38b8b;
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 0.85em;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    section {
+      padding: 40px 20px;
+    }
+
+    section:first-of-type {
+      margin-top: 120px; /* headerの高さに合わせて調整 */
+    }
+
+    .carousel-container {
+      max-width: 960px;
+      height: 90vh; /* 画面の90%に抑える */
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .carousel-slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
+
+    .carousel-slide.active {
+      display: block;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.3);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 1.2em;
+      z-index: 10;
+    }
+
+    .carousel-button.left {
+      left: 10px;
+    }
+
+    .carousel-button.right {
+      right: 10px;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #ccc;
+      border-radius: 50%;
+      margin: 0 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .carousel-dot.active {
+      background: #555;
+    }
+
+    .features, .reviews, .faq {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .features-heading {
+      font-size: 1.6em;
+      margin-bottom: 30px;
+      text-align: left;
+      color: #222;
+    }
+
+    .features-summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .feature-box {
+      background-color: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s;
+      text-align: center;
+    }
+
+    .feature-box:hover {
+      transform: translateY(-4px);
+    }
+
+    .feature-box h3 {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .feature-box p {
+      font-size: 0.95em;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: #f1f1f1;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+      .features-summary {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.1em;
+      }
+
+      header p {
+        font-size: 0.8em;
+      }
+
+      .cta a {
+        font-size: 0.8em;
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>自然由来のフェイスケアで、素肌本来の美しさを</h1>
+    <p>敏感肌にもやさしい、無添加フェイスケアシリーズ</p>
+    <div class="cta">
+      <a href="purchase.html">今すぐ試してみる</a>
+    </div>
+  </header>
+
+  <section class="carousel-container">
+    <div class="carousel-slide active"><img src="AdobeStock_272372012_Preview.jpeg" alt="製品1"></div>
+    <div class="carousel-slide"><img src="AdobeStock_480492977_Preview.jpeg" alt="製品2"></div>
+    <div class="carousel-slide"><img src="AdobeStock_491859925_Preview.jpeg" alt="製品3"></div>
+    <div class="carousel-slide"><img src="AdobeStock_548184349_Preview.jpeg" alt="製品4"></div>
+
+    <button class="carousel-button left" onclick="changeSlide(-1)">‹</button>
+    <button class="carousel-button right" onclick="changeSlide(1)">›</button>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </section>
+
+  <section class="features">
+    <h2 class="features-heading">特徴</h2>
+    <div class="features-summary">
+      <div class="feature-box">
+        <h3>100%自然由来成分</h3>
+        <p>厳選された植物由来エキスで肌への刺激を最小限に。</p>
+      </div>
+      <div class="feature-box">
+        <h3>皮膚科医との共同開発</h3>
+        <p>敏感肌に悩む方のために開発された安心処方。</p>
+      </div>
+      <div class="feature-box">
+        <h3>無添加・無香料</h3>
+        <p>余計な成分を排除し、肌への負担を極力軽減。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <h2>ご愛用者の声</h2>
+    <div class="review-item">
+      <p>「使い始めてから肌の調子が良くなった！」（30代女性）</p>
+    </div>
+    <div class="review-item">
+      <p>「ベタつかず、朝も夜も快適です」（20代男性）</p>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h2>よくある質問</h2>
+    <div class="faq-item">
+      <h4>Q. 敏感肌でも使えますか？</h4>
+      <p>A. はい。全ての製品はアレルギーテスト済です。</p>
+    </div>
+    <div class="faq-item">
+      <h4>Q. どこで購入できますか？</h4>
+      <p>A. 公式サイトおよび一部のドラッグストアでお取り扱いしています。</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 フェイスケアブランド株式会社</p>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dotsContainer = document.getElementById('carouselDots');
+    let currentIndex = 0;
+    let autoSlideInterval;
+
+    function createDots() {
+      slides.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('carousel-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => showSlide(index));
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function updateDots() {
+      const dots = document.querySelectorAll('.carousel-dot');
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[currentIndex].classList.add('active');
+    }
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      currentIndex = index;
+      slides[currentIndex].classList.add('active');
+      updateDots();
+    }
+
+    function changeSlide(step) {
+      currentIndex = (currentIndex + step + slides.length) % slides.length;
+      showSlide(currentIndex);
+    }
+
+    function startAutoSlide() {
+      autoSlideInterval = setInterval(() => {
+        changeSlide(1);
+      }, 5000);
+    }
+
+    function stopAutoSlide() {
+      clearInterval(autoSlideInterval);
+    }
+
+    createDots();
+    startAutoSlide();
+
+    document.querySelector('.carousel-container').addEventListener('mouseenter', stopAutoSlide);
+    document.querySelector('.carousel-container').addEventListener('mouseleave', startAutoSlide);
+  </script>
+</body>
+</html>

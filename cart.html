@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>カート | フェイスケアブランド</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+    }
+
+    header {
+      background-color: #f8f9fa;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.4em;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f1f1;
+    }
+
+    .total {
+      text-align: right;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .checkout-btn {
+      display: block;
+      text-align: center;
+      background-color: #e38b8b;
+      color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      width: 200px;
+      margin: 0 auto;
+    }
+
+    .checkout-btn:hover {
+      background-color: #cc6f6f;
+    }
+
+    .delete-btn {
+      background-color: #ccc;
+      color: #333;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: #bbb;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ショッピングカート</h1>
+  </header>
+
+  <main>
+    <table id="cartTable">
+      <thead>
+        <tr>
+          <th>商品名</th>
+          <th>価格</th>
+          <th>削除</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 商品が動的に挿入されます -->
+      </tbody>
+    </table>
+
+    <p class="total" id="totalPrice">合計: ¥0</p>
+
+    <a href="checkout.html" class="checkout-btn">購入へ進む</a>
+  </main>
+
+  <footer>
+    &copy; 2025 フェイスケアブランド株式会社
+  </footer>
+
+  <script>
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const tableBody = document.querySelector('#cartTable tbody');
+      const totalDisplay = document.getElementById('totalPrice');
+      tableBody.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>¥${item.price.toLocaleString()}</td>
+          <td><button class="delete-btn" onclick="removeItem(${index})">削除</button></td>
+        `;
+        tableBody.appendChild(row);
+        total += item.price;
+      });
+
+      totalDisplay.textContent = `合計: ¥${total.toLocaleString()}`;
+    }
+
+    function removeItem(index) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    // 初回描画
+    renderCart();
+  </script>
+</body>
+</html>

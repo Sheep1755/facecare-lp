@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購入手続き | フェイスケアブランド</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+    }
+
+    header {
+      background-color: #f8f9fa;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.4em;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    input, select {
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .submit-btn {
+      margin-top: 24px;
+      padding: 12px;
+      background-color: #e38b8b;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    .submit-btn:hover {
+      background-color: #cc6f6f;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>購入手続き</h1>
+  </header>
+
+  <main>
+    <form id="checkout-form">
+      <label for="name">お名前</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">メールアドレス</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="address">お届け先住所</label>
+      <input type="text" id="address" name="address" required>
+
+      <label for="payment">支払い方法</label>
+      <select id="payment" name="payment" required>
+        <option value="">選択してください</option>
+        <option value="credit">クレジットカード（Stripe連携）</option>
+        <option value="bank">銀行振込</option>
+        <option value="cod">代金引換</option>
+      </select>
+
+      <button type="submit" class="submit-btn">購入を確定する</button>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 フェイスケアブランド株式会社
+  </footer>
+
+  <script>
+    const stripe = Stripe("pk_test_51Rmw7QCMxV2ai1wUSUZCzCq8DzzVFgSolAA8mSi1Fc1pxStb3M2wZFJ171mugSWJ9uo7P8rMtyeIGFR4UO52m1JJ00HmL3yUci");
+
+    document.getElementById("checkout-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const paymentMethod = document.getElementById("payment").value;
+
+      if (paymentMethod === "credit") {
+        fetch("/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            items: [{ id: "facecare-basic-set", quantity: 1 }]
+          })
+        })
+        .then(res => res.json())
+        .then(data => stripe.redirectToCheckout({ sessionId: data.id }))
+        .catch(err => console.error("Stripe checkout error:", err));
+      } else {
+        window.location.href = "thankyou.html";
+      }
+    });
+  </script>
+</body>
+</html>
