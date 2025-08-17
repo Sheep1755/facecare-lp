@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>私たちについて | フェイスケアブランド</title>
+  <meta name="description" content="余計なものは入れない。肌に必要なものだけを。フェイスケアブランドの理念、成分方針、環境配慮の取り組みについて。">
+  <meta property="og:title" content="私たちについて | フェイスケアブランド">
+  <meta property="og:description" content="余計なものは入れない。肌に必要なものだけを。理念・成分・環境配慮。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="AdobeStock_272372012_Preview.jpeg">
+  <meta name="theme-color" content="#e38b8b">
+  <style>
+    /* ===== Base（index.htmlと同トーン） ===== */
+    :root{
+      --brand:#e38b8b;--ink:#222;--text:#333;--muted:#555;--paper:#fff;--panel:#f8f9fa;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Helvetica Neue',system-ui,-apple-system,'Segoe UI',Roboto,'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif;color:var(--text);background:var(--paper);line-height:1.65;letter-spacing:.02em}
+    header{position:sticky;top:0;z-index:1000;background:var(--panel);padding:16px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    header h1{font-size:1.2em;margin:0;color:var(--ink);font-weight:600;letter-spacing:.04em}
+    header .sub{margin:6px 0 0;font-size:.85em;color:#555}
+    .cta a{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:.85em}
+    main{padding:40px 20px}
+    section{max-width:1040px;margin:0 auto 36px}
+    footer{background:#f1f1f1;text-align:center;padding:20px;font-size:.9em}
+
+    /* ===== Hero ===== */
+    .hero{
+      position:relative;max-width:1040px;margin:24px auto 28px;border-radius:14px;overflow:hidden;
+      box-shadow:0 2px 10px rgba(0,0,0,.08);aspect-ratio:1091/420;isolation:isolate;
+    }
+    .hero img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.02) saturate(1.02)}
+    .hero::after{
+      content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.22) 0%,rgba(0,0,0,.08) 38%,rgba(0,0,0,.42) 100%);
+      z-index:1;pointer-events:none;
+    }
+    .hero-copy{position:absolute;z-index:2;left:5%;bottom:8%;color:#fff;max-width:680px;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+    .hero-copy h2{margin:0 0 8px;font-size:clamp(22px,4.2vw,36px);letter-spacing:.06em}
+    .hero-copy p{margin:0 0 14px;font-size:clamp(14px,2.2vw,16px);opacity:.95}
+    .badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:999px;padding:6px 10px;font-size:.8rem;backdrop-filter:saturate(120%) blur(4px)}
+
+    /* ===== Section blocks ===== */
+    .section-title{font-size:1.6em;color:var(--ink);margin:0 0 16px}
+    .lead{color:var(--muted);margin-top:-4px;margin-bottom:18px}
+
+    /* Cards */
+    .grid{display:grid;gap:16px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    @media (max-width:900px){.grid.cols-3{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:680px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr}}
+    .card{
+      background:#fff;border-radius:14px;padding:18px;border:1px solid rgba(0,0,0,.06);
+      box-shadow:0 2px 10px rgba(0,0,0,.05);
+    }
+    .card h3{margin:0 0 8px;color:var(--ink);font-size:1.1em}
+    .card p{margin:0;color:var(--muted)}
+
+    /* List w/ icons */
+    .list{display:grid;gap:10px}
+    .list li{list-style:none;display:flex;gap:10px;align-items:flex-start}
+    .dot{width:12px;height:12px;border-radius:50%;background:#e9bcbc;flex:0 0 auto;transform:translateY(5px)}
+
+    /* Timeline */
+    .timeline{position:relative;padding-left:20px}
+    .timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:rgba(0,0,0,.08)}
+    .tl-item{position:relative;margin:10px 0 14px}
+    .tl-item::before{content:"";position:absolute;left:-2px;top:.3em;width:10px;height:10px;border-radius:50%;background:#e9bcbc;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+    .tl-item time{display:block;font-size:.85rem;color:#777;margin-bottom:2px}
+
+    /* Callout */
+    .callout{
+      display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+      background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.05)
+    }
+    .callout .text{color:var(--ink);font-weight:600}
+    .btn{display:inline-block;background:var(--brand);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
+
+    /* Reveal (優しめ) */
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity 600ms ease,transform 600ms ease;will-change:opacity,transform}
+    .reveal.in{opacity:1;transform:none}
+    @media (prefers-reduced-motion:reduce){.reveal{opacity:1 !important;transform:none !important;transition:none !important}}
+  .mini-nav {
+  background: #f8f8f8; /* 無印系の淡いグレー */
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+}
+
+.mini-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.mini-nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.mini-nav a:hover {
+  color: #00796b; /* 落ち着いたアクセントカラー */
+}
+
+  
+  
+  </style>
+</head>
+<body>
+  <header>
+    <h1>フェイスケアブランド</h1>
+    <p class="sub">余計なものは、入れない。肌に必要なものだけを。</p>
+    <!-- Mini Navigation -->
+<nav class="mini-nav">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="purchase.html">Products</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="cart.html">Cart</a></li>
+  </ul>
+</nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" aria-label="ブランドイメージ">
+    <img src="AdobeStock_548184349_Preview.jpeg" alt="朝の窓辺の柔らかな光の中に置かれたスキンケアボトル">
+    <div class="hero-copy">
+      <h2>肌にも、地球にも、やさしく。</h2>
+      <p>毎日使うものだから、誠実に。成分はシンプルに、体験は豊かに。</p>
+      <div class="badge-row">
+        <span class="badge">無香料</span>
+        <span class="badge">着色料不使用</span>
+        <span class="badge">鉱物油不使用</span>
+        <span class="badge">敏感肌テスト済み</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- 理念 -->
+    <section class="reveal">
+      <h2 class="section-title">私たちの理念</h2>
+      <p class="lead">「必要なものだけを、正直に。」 肌負担を増やす装飾は避け、毎日の続けやすさを第一に考えています。</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>シンプル処方</h3><p>役割が重複する成分は極力省き、肌への刺激要因を減らします。</p></div>
+        <div class="card"><h3>毎日の使いやすさ</h3><p>ベタつかず、季節や性別を問わず手に取りやすい質感。</p></div>
+        <div class="card"><h3>誠実な情報開示</h3><p>成分や試験結果をわかりやすく、曖昧さなくお伝えします。</p></div>
+      </div>
+    </section>
+
+    <!-- 成分方針 -->
+    <section class="reveal" aria-labelledby="ingredients">
+      <h2 id="ingredients" class="section-title">成分方針</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>配合するもの</h3>
+          <ul class="list">
+            <li><span class="dot"></span><span>角層のうるおいを補う保湿成分（例：グリセリン、BG など）</span></li>
+            <li><span class="dot"></span><span>肌バランスを整える整肌成分</span></li>
+            <li><span class="dot"></span><span>必要最小限の安定化成分</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>配合しないもの</h3>
+          <ul class="list">
+            <li><span class="dot"></span><span>合成香料・着色料</span></li>
+            <li><span class="dot"></span><span>鉱物油</span></li>
+            <li><span class="dot"></span><span>不必要なカプセル化演出成分</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- サステナビリティ -->
+    <section class="reveal" aria-labelledby="sustain">
+      <h2 id="sustain" class="section-title">環境への配慮</h2>
+      <p class="lead">使い続けられる価格と設計で、無理のないサステナブルを。</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>再生素材容器</h3><p>一部に再生PETを採用。順次対象を拡大します。</p></div>
+        <div class="card"><h3>詰め替えパック</h3><p>ボトル廃棄量の削減に寄与。軽量で輸送時のCO₂も抑制。</p></div>
+        <div class="card"><h3>最小限パッケージ</h3><p>過剰な化粧箱・付属品を減らし、資源使用を抑えます。</p></div>
+      </div>
+    </section>
+
+    <!-- タイムライン -->
+    <section class="reveal" aria-labelledby="history">
+      <h2 id="history" class="section-title">歩み</h2>
+      <div class="timeline">
+        <div class="tl-item"><time>2023</time><div>企画開始。シンプル処方と無香料ポリシーを策定。</div></div>
+        <div class="tl-item"><time>2024</time><div>皮膚科医監修のもと試験・改良。日常使用性の検証を重視。</div></div>
+        <div class="tl-item"><time>2025</time><div>ベーシックラインを発売。詰め替え対応と容器の再生素材化を開始。</div></div>
+      </div>
+    </section>
+
+    <!-- 監修/チーム（写真は後で差し替え） -->
+    <section class="reveal" aria-labelledby="team">
+      <h2 id="team" class="section-title">監修とチーム</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>皮膚科医 監修</h3>
+          <p>敏感肌の方にも配慮したテスト設計とレビュー体制を採用。</p>
+        </div>
+        <div class="card">
+          <h3>開発チーム</h3>
+          <p>日常的な使い心地の検証と、誠実な情報開示をチーム全員で徹底。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="reveal">
+      <div class="callout">
+        <div class="text">まずはベーシックラインから。毎日のケアを、軽やかに。</div>
+        <div class="actions">
+          <a class="btn" href="purchase.html">ラインを見る</a>
+          <a class="btn" href="cart.html" style="background:#555">カートを見る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2025 フェイスケアブランド株式会社</footer>
+
+  <!-- やさしいスクロール・リビール -->
+  <script>
+    (()=>{const t=document.querySelectorAll('.reveal');
+      if(!('IntersectionObserver'in window)||!t.length){t.forEach(e=>e.classList.add('in'));return;}
+      const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+      t.forEach(e=>io.observe(e));
+    })();
+  </script>
+
+  <!-- 構造化データ（ブランド/サイト） -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"フェイスケアブランド",
+    "url":"https://example.com/",
+    "brand":{"@type":"Brand","name":"フェイスケアブランド"},
+    "sameAs":[]
+  }
+  </script>
+</body>
+</html>

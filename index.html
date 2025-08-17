@@ -117,6 +117,7 @@
     .carousel-slide img {
       width: 100%;
       height: 100%;
+      margin-top: 45px;
       object-fit: cover;
       display: block;
     }
@@ -335,125 +336,190 @@
     }
 
     /* ===== Reviews ===== */
-.reviews h2, .faq h2 {
-  font-size: 1.6em;
-  color: var(--ink);
-  margin-bottom: 18px;
-}
+    .reviews h2,
+    .faq h2 {
+      font-size: 1.6em;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
 
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
-}
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
 
-.review-card {
-  grid-column: span 6;              /* 2列 */
-  background: #fff;
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.06);
-  border: 1px solid rgba(0,0,0,.04);
-}
+    .review-card {
+      grid-column: span 6;
+      /* 2列 */
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+      border: 1px solid rgba(0, 0, 0, .04);
+    }
 
-@media (max-width: 768px) {
-  .review-card { grid-column: 1 / -1; } /* 1列 */
-}
+    @media (max-width: 768px) {
+      .review-card {
+        grid-column: 1 / -1;
+      }
 
-.review-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
+      /* 1列 */
+    }
 
-.avatar {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: #f0f0f0;
-  color: #666;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: .9rem;
-}
+    .review-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
 
-.meta .name { color: var(--ink); }
-.meta .label {
-  display: block;
-  font-size: .85rem;
-  color: var(--muted);
-}
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      color: #666;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: .9rem;
+    }
 
-.stars {
-  margin-left: auto;
-  display: inline-flex;
-  gap: 2px;
-}
-.stars svg {
-  width: 18px; height: 18px;
-  fill: #e9bcbc;    /* ブランド寄りの淡いカラー（必要なら var(--brand) に） */
-  opacity: .9;
-}
+    .meta .name {
+      color: var(--ink);
+    }
 
-.review-body {
-  margin: 6px 0 0;
-  color: var(--text);
-  line-height: 1.8;
-  quotes: "「" "」" "『" "』";
-}
-.review-body:before { content: open-quote; opacity: .6; }
-.review-body:after  { content: close-quote; opacity: .6; }
+    .meta .label {
+      display: block;
+      font-size: .85rem;
+      color: var(--muted);
+    }
 
-/* ===== FAQ（アコーディオン） ===== */
-.faq-item {
-  border-top: 1px solid rgba(0,0,0,.08);
-  padding: 12px 0;
-}
-.faq-item:last-of-type {
-  border-bottom: 1px solid rgba(0,0,0,.08);
-}
-.faq-q {
-  list-style: none;
-  cursor: pointer;
-  font-weight: 600;
-  color: var(--ink);
-  position: relative;
-  padding-right: 24px;
-}
-.faq-q::-webkit-details-marker { display: none; }
-.faq-q::after {
-  content: "＋";
-  position: absolute;
-  right: 0; top: 0;
-  font-weight: 400;
-  color: #999;
-  transition: transform .2s ease;
-}
-.faq-item[open] .faq-q::after { content: "－"; color: #666; }
+    .stars {
+      margin-left: auto;
+      display: inline-flex;
+      gap: 2px;
+    }
 
-.faq-a {
-  margin-top: 8px;
-  color: var(--muted);
-  line-height: 1.9;
-}
+    .stars svg {
+      width: 18px;
+      height: 18px;
+      fill: #e9bcbc;
+      /* ブランド寄りの淡いカラー（必要なら var(--brand) に） */
+      opacity: .9;
+    }
 
-/* ===== スクロール時のふわっと表示（上品に） ===== */
-.reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 600ms ease, transform 600ms ease;
-  will-change: opacity, transform;
-}
-.reveal.in {
-  opacity: 1;
-  transform: none;
-}
+    .review-body {
+      margin: 6px 0 0;
+      color: var(--text);
+      line-height: 1.8;
+      quotes: "「" "」" "『" "』";
+    }
 
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-}
+    .review-body:before {
+      content: open-quote;
+      opacity: .6;
+    }
+
+    .review-body:after {
+      content: close-quote;
+      opacity: .6;
+    }
+
+    /* ===== FAQ（アコーディオン） ===== */
+    .faq-item {
+      border-top: 1px solid rgba(0, 0, 0, .08);
+      padding: 12px 0;
+    }
+
+    .faq-item:last-of-type {
+      border-bottom: 1px solid rgba(0, 0, 0, .08);
+    }
+
+    .faq-q {
+      list-style: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--ink);
+      position: relative;
+      padding-right: 24px;
+    }
+
+    .faq-q::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-q::after {
+      content: "＋";
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-weight: 400;
+      color: #999;
+      transition: transform .2s ease;
+    }
+
+    .faq-item[open] .faq-q::after {
+      content: "－";
+      color: #666;
+    }
+
+    .faq-a {
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    /* ===== スクロール時のふわっと表示（上品に） ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 600ms ease, transform 600ms ease;
+      will-change: opacity, transform;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+    .mini-nav {
+      background: #f8f8f8;
+      /* 無印系の淡いグレー */
+      border-bottom: 1px solid #ddd;
+      padding: 8px 0;
+    }
+
+    .mini-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .mini-nav a {
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+
+    .mini-nav a:hover {
+      color: #00796b;
+      /* 落ち着いたアクセントカラー */
+    }
   </style>
 </head>
 
@@ -462,6 +528,16 @@
     <h1>余計なものは、入れない。肌に必要なものだけを。</h1>
     <p>香料・着色料・鉱物油 不使用。毎日、安心して続けられるシンプルケア。</p>
     <div class="cta"><a href="purchase.html">シンプルケアラインを見る</a></div>
+    <!-- Mini Navigation -->
+    <nav class="mini-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="purchase.html">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="cart.html">Cart</a></li>
+      </ul>
+    </nav>
+
   </header>
 
   <!-- ===== Hero with overlay copy ===== -->
@@ -517,122 +593,158 @@
   </section>
 
   <section class="reviews reveal" aria-labelledby="reviews-heading">
-  <h2 id="reviews-heading">ご愛用者の声</h2>
+    <h2 id="reviews-heading">ご愛用者の声</h2>
 
-  <div class="reviews-grid">
-    <figure class="review-card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-      <figcaption class="review-head">
-        <span class="avatar" aria-hidden="true">A</span>
-        <div class="meta">
-          <strong class="name" itemprop="author">30代女性</strong>
-          <span class="label">乾燥肌 / 2ヶ月使用</span>
-        </div>
-        <div class="stars" aria-label="評価 5 / 5">
-          <!-- アイコンは装飾目的のため aria-hidden -->
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-        </div>
-      </figcaption>
-      <blockquote class="review-body" itemprop="reviewBody">
-        「使い始めてから、朝のつっぱり感がなくなりました。ベタつかず軽いのに、ちゃんと保湿されている感じが好きです。」
-      </blockquote>
-    </figure>
+    <div class="reviews-grid">
+      <figure class="review-card" itemprop="review" itemscope itemtype="https://schema.org/Review">
+        <figcaption class="review-head">
+          <span class="avatar" aria-hidden="true">A</span>
+          <div class="meta">
+            <strong class="name" itemprop="author">30代女性</strong>
+            <span class="label">乾燥肌 / 2ヶ月使用</span>
+          </div>
+          <div class="stars" aria-label="評価 5 / 5">
+            <!-- アイコンは装飾目的のため aria-hidden -->
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+          </div>
+        </figcaption>
+        <blockquote class="review-body" itemprop="reviewBody">
+          「使い始めてから、朝のつっぱり感がなくなりました。ベタつかず軽いのに、ちゃんと保湿されている感じが好きです。」
+        </blockquote>
+      </figure>
 
-    <figure class="review-card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-      <figcaption class="review-head">
-        <span class="avatar" aria-hidden="true">B</span>
-        <div class="meta">
-          <strong class="name" itemprop="author">20代男性</strong>
-          <span class="label">混合肌 / 1ヶ月使用</span>
-        </div>
-        <div class="stars" aria-label="評価 4 / 5">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-        </div>
-      </figcaption>
-      <blockquote class="review-body" itemprop="reviewBody">
-        「テカリが気になりにくくなりました。香りがないので仕事前も使いやすいです。」
-      </blockquote>
-    </figure>
+      <figure class="review-card" itemprop="review" itemscope itemtype="https://schema.org/Review">
+        <figcaption class="review-head">
+          <span class="avatar" aria-hidden="true">B</span>
+          <div class="meta">
+            <strong class="name" itemprop="author">20代男性</strong>
+            <span class="label">混合肌 / 1ヶ月使用</span>
+          </div>
+          <div class="stars" aria-label="評価 4 / 5">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+          </div>
+        </figcaption>
+        <blockquote class="review-body" itemprop="reviewBody">
+          「テカリが気になりにくくなりました。香りがないので仕事前も使いやすいです。」
+        </blockquote>
+      </figure>
 
-    <figure class="review-card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-      <figcaption class="review-head">
-        <span class="avatar" aria-hidden="true">C</span>
-        <div class="meta">
-          <strong class="name" itemprop="author">40代女性</strong>
-          <span class="label">敏感肌 / 3ヶ月使用</span>
-        </div>
-        <div class="stars" aria-label="評価 5 / 5">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-        </div>
-      </figcaption>
-      <blockquote class="review-body" itemprop="reviewBody">
-        「刺激を感じにくく、続けやすい価格とシンプルさ。家族で共有しています。」
-      </blockquote>
-    </figure>
+      <figure class="review-card" itemprop="review" itemscope itemtype="https://schema.org/Review">
+        <figcaption class="review-head">
+          <span class="avatar" aria-hidden="true">C</span>
+          <div class="meta">
+            <strong class="name" itemprop="author">40代女性</strong>
+            <span class="label">敏感肌 / 3ヶ月使用</span>
+          </div>
+          <div class="stars" aria-label="評価 5 / 5">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+          </div>
+        </figcaption>
+        <blockquote class="review-body" itemprop="reviewBody">
+          「刺激を感じにくく、続けやすい価格とシンプルさ。家族で共有しています。」
+        </blockquote>
+      </figure>
 
-    <figure class="review-card" itemprop="review" itemscope itemtype="https://schema.org/Review">
-      <figcaption class="review-head">
-        <span class="avatar" aria-hidden="true">D</span>
-        <div class="meta">
-          <strong class="name" itemprop="author">50代男性</strong>
-          <span class="label">乾燥・敏感 / 1ヶ月使用</span>
-        </div>
-        <div class="stars" aria-label="評価 4 / 5">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
-        </div>
-      </figcaption>
-      <blockquote class="review-body" itemprop="reviewBody">
-        「冬場のカサつきが落ち着きました。無香料で仕事中も気になりません。」
-      </blockquote>
-    </figure>
-  </div>
-</section>
-
-<!-- ===== FAQ ===== -->
-<section class="faq reveal" itemscope itemtype="https://schema.org/FAQPage" aria-labelledby="faq-heading">
-  <h2 id="faq-heading">よくある質問</h2>
-
-  <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-    <summary class="faq-q" itemprop="name">敏感肌でも使えますか？</summary>
-    <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-      <p itemprop="text">はい。全製品アレルギーテスト済みで、香料・着色料・鉱物油は不使用です。初めてお使いの際は、腕の内側などでパッチテストをおすすめします。</p>
+      <figure class="review-card" itemprop="review" itemscope itemtype="https://schema.org/Review">
+        <figcaption class="review-head">
+          <span class="avatar" aria-hidden="true">D</span>
+          <div class="meta">
+            <strong class="name" itemprop="author">50代男性</strong>
+            <span class="label">乾燥・敏感 / 1ヶ月使用</span>
+          </div>
+          <div class="stars" aria-label="評価 4 / 5">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3.2 1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+          </div>
+        </figcaption>
+        <blockquote class="review-body" itemprop="reviewBody">
+          「冬場のカサつきが落ち着きました。無香料で仕事中も気になりません。」
+        </blockquote>
+      </figure>
     </div>
-  </details>
+  </section>
 
-  <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-    <summary class="faq-q" itemprop="name">どこで購入できますか？</summary>
-    <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-      <p itemprop="text">公式オンラインストアのほか、一部ドラッグストアでお取り扱いしています。お近くの店舗は「店舗検索」よりご確認ください。</p>
-    </div>
-  </details>
+  <!-- ===== FAQ ===== -->
+  <section class="faq reveal" itemscope itemtype="https://schema.org/FAQPage" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">よくある質問</h2>
 
-  <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-    <summary class="faq-q" itemprop="name">香りはありますか？</summary>
-    <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-      <p itemprop="text">無香料です。原料由来のわずかな香りを感じる場合がありますが、時間とともに目立たなくなります。</p>
-    </div>
-  </details>
+    <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <summary class="faq-q" itemprop="name">敏感肌でも使えますか？</summary>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <p itemprop="text">はい。全製品アレルギーテスト済みで、香料・着色料・鉱物油は不使用です。初めてお使いの際は、腕の内側などでパッチテストをおすすめします。</p>
+      </div>
+    </details>
 
-  <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-    <summary class="faq-q" itemprop="name">詰め替え用はありますか？</summary>
-    <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-      <p itemprop="text">はい。ボトル資源の使用量を抑えるため、主要アイテムに詰め替えパックをご用意しています。</p>
-    </div>
-  </details>
-</section>
+    <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <summary class="faq-q" itemprop="name">どこで購入できますか？</summary>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <p itemprop="text">公式オンラインストアのほか、一部ドラッグストアでお取り扱いしています。お近くの店舗は「店舗検索」よりご確認ください。</p>
+      </div>
+    </details>
+
+    <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <summary class="faq-q" itemprop="name">香りはありますか？</summary>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <p itemprop="text">無香料です。原料由来のわずかな香りを感じる場合がありますが、時間とともに目立たなくなります。</p>
+      </div>
+    </details>
+
+    <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <summary class="faq-q" itemprop="name">詰め替え用はありますか？</summary>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <p itemprop="text">はい。ボトル資源の使用量を抑えるため、主要アイテムに詰め替えパックをご用意しています。</p>
+      </div>
+    </details>
+  </section>
 
   <footer>
     <p>&copy; 2025 フェイスケアブランド株式会社</p>
@@ -702,22 +814,22 @@
     carousel.addEventListener('focusout', startAutoSlide);
 
     // ===== Scroll reveal (やさしい演出) =====
-  (() => {
-    const targets = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window) || !targets.length) {
-      targets.forEach(t => t.classList.add('in'));
-      return;
-    }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    targets.forEach(t => io.observe(t));
-  })();
+    (() => {
+      const targets = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window) || !targets.length) {
+        targets.forEach(t => t.classList.add('in'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      targets.forEach(t => io.observe(t));
+    })();
   </script>
 </body>
 
