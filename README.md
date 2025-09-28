@@ -3,7 +3,7 @@
 “**必要なものだけ**” をコンセプトにした化粧品LPのデモです。  
 **SEO/OGP/GA4/アクセシビリティ/モバイル最適化**まで最小実装をカバーし、**短納期・小規模案件**にも対応できる構成にしています。
 
-- **Live（デモURL）**：https://YOUR.DOMAIN/
+- **Live（デモURL）**：https://https://Sheep1755.github.io/facecare-lp//
 - **お問い合わせ**：you@example.com ／ @yourname（SNS）
 
 > このリポジトリはポートフォリオです。実運用時は画像や文言、計測IDを本番用に差し替えます。
@@ -50,7 +50,7 @@
 
 ### 4.1 GitHub Pages（静的）
 1. `Settings` → `Pages` → Branch: `main` を選択（`/root`）  
-2. `<head>` の `YOUR.DOMAIN` を公開URLに置換（`canonical`/`og:url`/`twitter:image` 等）  
+2. `<head>` の `https://Sheep1755.github.io/facecare-lp/` を公開URLに置換（`canonical`/`og:url`/`twitter:image` 等）  
 3. OGP画像（1200×630）・faviconを配置
 
 ### 4.2 Stripe API（Renderの例）
@@ -103,7 +103,7 @@ gtag?.('event','add_to_cart',{
 - [ ] Lighthouse：Performance / Accessibility / SEO  
 - [ ] OGP/Twitter：共有プレビュー確認  
 - [ ] GA4：**Realtime/DebugView** でイベント確認  
-- [ ] `YOUR.DOMAIN` 置換漏れなし（`canonical/og:url/twitter:image`）
+- [ ] `https://Sheep1755.github.io/facecare-lp/` 置換漏れなし（`canonical/og:url/twitter:image`）
 
 ---
 
