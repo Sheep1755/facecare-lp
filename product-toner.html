@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <title>保湿化粧水 | フェイスケアブランド</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- SEO -->
+  <meta name="description" content="角層までスッと浸透し、べたつかずうるおいを保つ無香料の化粧水。着色料・鉱物油不使用、敏感肌テスト済み。">
+  <link rel="canonical" href="https://YOUR.DOMAIN/product-toner.html">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="フェイスケアブランド">
+  <meta property="og:title" content="保湿化粧水 | フェイスケアブランド">
+  <meta property="og:description" content="角層までスッと浸透し、べたつかずうるおいを保つ無香料の化粧水。着色料・鉱物油不使用、敏感肌テスト済み。">
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://YOUR.DOMAIN/product-toner.html">
+  <meta property="og:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-toner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="product:price:amount" content="2200">
+  <meta property="product:price:currency" content="JPY">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="保湿化粧水 | フェイスケアブランド">
+  <meta name="twitter:description" content="角層までスッと浸透し、べたつかずうるおいを保つ無香料の化粧水。着色料・鉱物油不使用、敏感肌テスト済み。">
+  <meta name="twitter:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-toner.jpg">
+
+  <!-- 共通スタイル -->
+  <link rel="stylesheet" href="styles/site.css" />
+
+  <style>
+    /* ===== toner 固有スタイル（共通ヘッダー系は site.css に委譲） ===== */
+    main {
+      max-width: 1040px;
+      margin: 28px auto;
+      padding: 0 20px
+    }
+
+    /* HERO */
+    .product-hero {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      align-items: start
+    }
+
+    @media(max-width:900px) {
+      .product-hero {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .product-visual {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+      aspect-ratio: 4/3;
+      background: #fafafa
+    }
+
+    .product-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .product-summary h1 {
+      margin: 0 0 6px;
+      font-size: clamp(20px, 3.8vw, 28px);
+      color: var(--ink)
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0 0 12px
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0 14px
+    }
+
+    .badge {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .1);
+      color: #333;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .8rem
+    }
+
+    .price-line {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin: 10px 0 16px
+    }
+
+    .price {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--ink)
+    }
+
+    .tax {
+      font-size: .9rem;
+      color: #777
+    }
+
+    .selectors {
+      display: grid;
+      gap: 12px;
+      margin: 16px 0
+    }
+
+    .label {
+      font-weight: 600;
+      color: var(--ink);
+      font-size: .95rem
+    }
+
+    .seg {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .seg button {
+      border: 1px solid rgba(0, 0, 0, .15);
+      background: #fff;
+      color: #333;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer
+    }
+
+    .seg button[aria-pressed="true"] {
+      border-color: var(--accent, #e38b8b);
+      box-shadow: 0 0 0 2px rgba(227, 139, 139, .15)
+    }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .qty input {
+      width: 76px;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 8px
+    }
+
+    .btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent, #e38b8b);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      border: none;
+      cursor: pointer
+    }
+
+    .btn.secondary {
+      background: #555
+    }
+
+    /* 通常セクション */
+    .grid {
+      display: grid;
+      gap: 16px
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr)
+    }
+
+    @media(max-width:900px) {
+      .grid.cols-3 {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:680px) {
+      .grid.cols-3 {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid rgba(0, 0, 0, .06);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 1.05em
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted)
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 26px 0 12px
+    }
+
+    .tabs [role="tab"] {
+      border: 1px solid rgba(0, 0, 0, .15);
+      background: #fff;
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer
+    }
+
+    .tabs [aria-selected="true"] {
+      border-color: var(--accent, #e38b8b);
+      box-shadow: 0 0 0 2px rgba(227, 139, 139, .12)
+    }
+
+    .tab-panels [role="tabpanel"] {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
+    }
+
+    section {
+      margin: 28px 0
+    }
+
+    h2.section-title {
+      font-size: 1.4em;
+      color: var(--ink);
+      margin: 0 0 12px
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 共通：固定ヘッダー（index と同一。Contact を含む） -->
+  <header>
+    <div class="header-inner">
+      <p class="tagline">余計なものは、入れない。肌に必要なものだけを。</p>
+      <p>香料・着色料・鉱物油 不使用。毎日、安心して続けられるシンプルケア。</p>
+      <div class="cta"><a class="btn" href="purchase.html#featured">定番アイテムを見る</a></div>
+      <nav class="mini-nav nav--underline" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="purchase.html" aria-current="location">Products</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <section class="usp-bar usp--rail">
+      </section>
+    </div>
+  </header>
+  <!-- 固定ヘッダー分のスペーサー -->
+  <div class="header-spacer" aria-hidden="true"></div>
+
+  <!-- ヘッダー高さ同期（見切れ防止） -->
+  <script>
+    function setHeaderVars() {
+      const h = document.querySelector('header')?.offsetHeight || 0;
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+    }
+    window.addEventListener('load', setHeaderVars);
+    window.addEventListener('resize', setHeaderVars);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(setHeaderVars); }
+  </script>
+
+  <main itemscope itemtype="https://schema.org/Product">
+    <!-- HERO -->
+    <section class="product-hero reveal">
+      <div class="product-visual">
+        <img src="AdobeStock_480492977_Preview.jpeg" width="1200" height="900" fetchpriority="high" decoding="async"
+          alt="保湿化粧水（無香料）のボトルとボタニカルイメージ" itemprop="image">
+      </div>
+      <div class="product-summary">
+        <h1 itemprop="name">保湿化粧水</h1>
+        <p class="sub" itemprop="description">角層までスッと浸透※し、べたつかずうるおいを保つ無香料の化粧水。<br>※角層まで</p>
+        <div class="badges">
+          <span class="badge">無香料</span>
+          <span class="badge">着色料不使用</span>
+          <span class="badge">鉱物油不使用</span>
+          <span class="badge">敏感肌テスト済</span>
+        </div>
+
+        <!-- price -->
+        <div class="price-line">
+          <div class="price" id="priceDisplay" aria-live="polite">¥2,200</div>
+          <div class="tax">税込</div>
+        </div>
+
+        <!-- selectors -->
+        <div class="selectors" aria-label="購入オプション">
+          <div>
+            <div class="label">容量</div>
+            <div class="seg" role="group" aria-label="容量">
+              <button type="button" class="size" data-size="150" data-price="2200" aria-pressed="true">150mL</button>
+              <button type="button" class="size" data-size="300" data-price="3200">300mL</button>
+            </div>
+          </div>
+          <div class="qty">
+            <span class="label">数量</span>
+            <input id="qtyInput" type="number" min="1" value="1" inputmode="numeric" aria-label="数量">
+          </div>
+        </div>
+
+        <!-- CTAs -->
+        <div class="btns">
+          <button class="btn" id="addToCartBtn" type="button">カートに入れる</button>
+          <a class="btn secondary" id="buyNowBtn" href="checkout.html">今すぐ購入</a>
+        </div>
+
+        <!-- Offer microdata -->
+        <meta itemprop="sku" content="toner-basic">
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <meta itemprop="priceCurrency" content="JPY">
+          <meta itemprop="price" id="metaPrice" content="2200">
+          <link itemprop="availability" href="https://schema.org/InStock">
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="reveal">
+      <h2 class="section-title">特徴</h2>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>ベタつかないのに潤う</h3>
+          <p>みずみずしい使用感で、季節・性別問わず快適。</p>
+        </div>
+        <div class="card">
+          <h3>シンプル処方</h3>
+          <p>必要以上の成分を使わず、毎日のケアに寄り添う。</p>
+        </div>
+        <div class="card">
+          <h3>無香料</h3>
+          <p>香りが苦手な方や職場でも使いやすい。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <section class="reveal" aria-label="商品詳細">
+      <nav class="tabs" role="tablist" aria-label="詳細タブ">
+        <button role="tab" aria-selected="true" aria-controls="panel-ingredients" id="tab-ingredients">成分</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-howto" id="tab-howto">使い方</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-reviews" id="tab-reviews">レビュー</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-faq" id="tab-faq">FAQ</button>
+      </nav>
+
+      <div class="tab-panels">
+        <article role="tabpanel" id="panel-ingredients" aria-labelledby="tab-ingredients">
+          <p class="muted">水、グリセリン、BG、他（保湿／整肌成分）。合成香料・着色料・鉱物油は不使用。</p>
+        </article>
+        <article role="tabpanel" id="panel-howto" aria-labelledby="tab-howto" hidden>
+          <p class="muted">手のひらに適量を取り、顔全体にやさしくなじませます。乾燥しやすい部分は重ねづけを。</p>
+        </article>
+        <article role="tabpanel" id="panel-reviews" aria-labelledby="tab-reviews" hidden>
+          <p class="muted">「ベタつかず仕事前にも使いやすい」「無香料で家族でも共有しています」などの声をいただいています。</p>
+        </article>
+        <article role="tabpanel" id="panel-faq" aria-labelledby="tab-faq" hidden>
+          <p class="muted"><strong>Q.</strong> 敏感肌でも使えますか？<br><strong>A.</strong> はい。パッチテストのうえご使用ください。</p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>&copy; 2025 フェイスケアブランド株式会社</footer>
+
+  <script>
+    // Reveal
+    (() => { const t = document.querySelectorAll('.reveal'); if (!('IntersectionObserver' in window) || !t.length) { t.forEach(e => e.classList.add('in')); return; } const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }) }, { threshold: .12 }); t.forEach(e => io.observe(e)); })();
+
+    // price & variants
+    const priceDisplay = document.getElementById('priceDisplay');
+    const metaPrice = document.getElementById('metaPrice');
+    const sizeButtons = [...document.querySelectorAll('.size')];
+    const qtyInput = document.getElementById('qtyInput');
+
+    function setActiveSize(btn) {
+      sizeButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      const price = Number(btn.dataset.price || 0);
+      priceDisplay.textContent = '¥' + price.toLocaleString();
+      metaPrice.setAttribute('content', String(price));
+    }
+    sizeButtons.forEach(btn => btn.addEventListener('click', () => setActiveSize(btn)));
+
+    // cart integration
+    function addToCart(itemName, unitPrice, qty) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      for (let i = 0; i < qty; i++) { cart.push({ name: itemName, price: unitPrice }); }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('カートに追加しました');
+    }
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      const activeBtn = sizeButtons.find(b => b.getAttribute('aria-pressed') === 'true') || sizeButtons[0];
+      const unitPrice = Number(activeBtn.dataset.price || 0);
+      const sizeLabel = activeBtn.dataset.size + 'mL';
+      const qty = Math.max(1, Number(qtyInput.value || 1));
+      addToCart(`保湿化粧水 ${sizeLabel}`, unitPrice, qty);
+    });
+
+    // default selection
+    setActiveSize(sizeButtons[0]);
+
+    // tabs a11y
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+    function activateTab(id) {
+      tabs.forEach(t => t.setAttribute('aria-selected', String(t.id === id)));
+      panels.forEach(p => p.hidden = (p.getAttribute('aria-labelledby') !== id));
+    }
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => activateTab(tab.id));
+      tab.addEventListener('keydown', (e) => {
+        const i = tabs.indexOf(tab);
+        if (e.key === 'ArrowRight') tabs[(i + 1) % tabs.length].focus();
+        if (e.key === 'ArrowLeft') tabs[(i - 1 + tabs.length) % tabs.length].focus();
+      });
+    });
+  </script>
+
+  <!-- 構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Product",
+    "name":"保湿化粧水",
+    "sku":"toner-basic",
+    "image": ["https://YOUR.DOMAIN/AdobeStock_480492977_Preview.jpeg"],
+    "description":"角層までスッと浸透し、べたつかずうるおいを保つ無香料の化粧水。",
+    "brand":{"@type":"Brand","name":"フェイスケアブランド"},
+    "offers": {
+  "@type": "Offer",
+  "priceCurrency": "JPY",
+  "price": "2200",
+  "availability": "https://schema.org/InStock",
+  "url": "https://YOUR.DOMAIN/product-toner.html"
+}
+  }
+  </script>
+</body>
+
+</html>

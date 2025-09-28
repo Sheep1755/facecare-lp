@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <title>フェイスケアブランド｜必要なものだけのシンプルケア</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- SEO -->
+  <meta name="description" content="敏感肌にもやさしい、必要なものだけのシンプルケア。化粧水・乳液・クリームを揃えたフェイスケアブランドの公式LP。">
+  <link rel="canonical" href="https://YOUR.DOMAIN/">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="フェイスケアブランド">
+  <meta property="og:title" content="フェイスケアブランド｜必要なものだけのシンプルケア">
+  <meta property="og:description" content="敏感肌にもやさしい、必要なものだけのシンプルケア。化粧水・乳液・クリームを揃えたフェイスケアブランドの公式LP。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://YOUR.DOMAIN/">
+  <meta property="og:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-index.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="フェイスケアブランド｜必要なものだけのシンプルケア">
+  <meta name="twitter:description" content="敏感肌にもやさしい、必要なものだけのシンプルケア。化粧水・乳液・クリームを揃えたフェイスケアブランドの公式LP。">
+  <meta name="twitter:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-index.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "フェイスケアブランド",
+  "url": "https://YOUR.DOMAIN/",
+  "logo": "https://YOUR.DOMAIN/assets/logo.png",
+  "sameAs": [
+    "https://twitter.com/yourbrand",
+    "https://www.instagram.com/yourbrand"
+  ]
+}
+</script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8H38073ETL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-8H38073ETL');
+  </script>
+
+  <!-- 共通スタイル -->
+  <link rel="stylesheet" href="styles/site.css" />
+
+  <style>
+    /* ===== index固有：Hero Overlay & Copy（位置/演出のみ） ===== */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .18) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, .28) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-copy {
+      position: absolute;
+      left: 5%;
+      bottom: 16%;
+      max-width: 560px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+      z-index: 3;
+    }
+
+    .hero-copy h2 {
+      margin: 0 0 8px;
+      font-weight: 700;
+      color: #fff;
+      font-size: clamp(20px, 4.2vw, 34px);
+      letter-spacing: .06em;
+    }
+
+    .hero-copy p {
+      margin: 0 0 14px;
+      font-size: clamp(14px, 2.2vw, 16px);
+      line-height: 1.8;
+      opacity: .95;
+    }
+
+    /* ===== index固有：Carousel UI（トップのみ利用想定） ===== */
+    .carousel-container {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1500ms ease, visibility 0s linear 1500ms;
+      will-change: opacity;
+      z-index: 0;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 1500ms ease;
+      z-index: 1;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 30%;
+      display: block;
+    }
+
+    .carousel-container .carousel-slide:nth-of-type(1) img {
+      object-position: 50% 45%;
+    }
+
+    @media (max-height:820px) {
+      .carousel-container .carousel-slide:nth-of-type(1) img {
+        object-position: 50% 48%;
+      }
+    }
+
+    @media (max-width:680px) {
+      .carousel-slide img {
+        object-fit: cover;
+      }
+    }
+
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, .28);
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 1.2em;
+      z-index: 4;
+    }
+
+    .carousel-button.left {
+      left: 10px;
+    }
+
+    .carousel-button.right {
+      right: 10px;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 10px;
+      border-radius: 20px;
+      z-index: 5;
+      margin: 0;
+    }
+
+    .carousel-dot {
+      appearance: none;
+      border: 0;
+      padding: 0;
+      line-height: 0;
+      font-size: 0;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, .55);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .6), 0 1px 2px rgba(0, 0, 0, .12);
+      margin: 0 6px;
+      cursor: pointer;
+      transition: transform .15s, background-color .15s, box-shadow .15s;
+    }
+
+    .carousel-dot:hover {
+      transform: scale(1.08);
+    }
+
+    .carousel-dot.active {
+      background-color: #fff;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .9), 0 2px 4px rgba(0, 0, 0, .16);
+    }
+
+    .carousel-dot:focus-visible {
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, .95), 0 0 0 4px rgba(0, 0, 0, .25);
+    }
+
+    /* ===== index固有：Features / Reviews / FAQ ===== */
+    .features,
+    .reviews,
+    .faq {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .features-heading {
+      font-size: 1.6em;
+      margin-bottom: 30px;
+      text-align: left;
+      color: var(--ink);
+    }
+
+    .features-summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .feature-box {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+      transition: transform .3s;
+      text-align: center;
+    }
+
+    .feature-box:hover {
+      transform: translateY(-4px);
+    }
+
+    .feature-box h3 {
+      font-size: 1.1em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .feature-box p {
+      font-size: .95em;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .reviews h2,
+    .faq h2 {
+      font-size: 1.6em;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .review-card {
+      grid-column: span 6;
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+      border: 1px solid rgba(0, 0, 0, .04);
+    }
+
+    @media (max-width:768px) {
+      .review-card {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .review-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      color: #666;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: .9rem;
+    }
+
+    .meta .name {
+      color: var(--ink);
+    }
+
+    .meta .label {
+      display: block;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .stars {
+      margin-left: auto;
+      display: inline-flex;
+      gap: 2px;
+    }
+
+    .stars svg {
+      width: 18px;
+      height: 18px;
+      fill: #e9bcbc;
+      opacity: .9;
+    }
+
+    .review-body {
+      margin: 6px 0 0;
+      color: var(--text);
+      line-height: 1.8;
+      quotes: "「" "」" "『" "』";
+    }
+
+    .review-body:before {
+      content: open-quote;
+      opacity: .6;
+    }
+
+    .review-body:after {
+      content: close-quote;
+      opacity: .6;
+    }
+
+    .faq-list {
+      border-top: 1px solid rgba(0, 0, 0, .08);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(0, 0, 0, .08);
+      padding: 12px 0;
+    }
+
+    .faq-q {
+      list-style: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--ink);
+      position: relative;
+      padding-right: 24px;
+    }
+
+    .faq-q::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-q::after {
+      content: "＋";
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-weight: 400;
+      color: #999;
+      transition: transform .2s ease;
+    }
+
+    .faq-item[open] .faq-q::after {
+      content: "－";
+      color: #666;
+    }
+
+    .faq-a {
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 共通：固定ヘッダー -->
+  <header>
+    <div class="header-inner">
+      <h1>余計なものは、入れない。肌に必要なものだけを。</h1>
+      <p>香料・着色料・鉱物油 不使用。毎日、安心して続けられるシンプルケア。</p>
+      <nav class="mini-nav nav--underline" aria-label="Main">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="purchase.html">Products</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <section class="usp-bar usp--rail">
+        <ul class="usp-list">
+          <li class="usp-item">香りなし</li>
+          <li class="usp-item">無着色</li>
+          <li class="usp-item">敏感肌テスト済み</li>
+        </ul>
+      </section>
+    </div>
+  </header>
+  <!-- 共通：固定ヘッダー分スペーサー（高さはJSが --header-h に反映） -->
+  <div class="header-spacer" aria-hidden="true"></div>
+
+  <!-- Hero / Carousel -->
+  <section class="carousel-container hero" role="region" aria-roledescription="carousel" aria-label="商品画像スライダー">
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <h2>余計なものは、入れない。<br>肌に必要なものだけを。</h2>
+      <p>香料・着色料・鉱物油 不使用。毎日、安心して続けられるシンプルケア。</p>
+      <!-- ★ スライドに同期するCTA -->
+      <a id="heroCta" class="btn" href="product-milk.html">乳液を見る</a>
+    </div>
+
+    <!-- Slides（各スライドにCTA情報を付与） -->
+    <div class="carousel-slide active" aria-hidden="false" aria-current="true" data-cta-text="乳液を見る"
+      data-cta-href="product-milk.html">
+      <img fetchpriority="high" decoding="async" src="AdobeStock_491859925_Preview.jpeg" srcset="
+    AdobeStock_491859925_Preview.jpeg 640w,
+    AdobeStock_491859925_Preview.jpeg 960w,
+    AdobeStock_491859925_Preview.jpeg 1440w" sizes="(min-width:1024px) 960px, 100vw"
+        alt="木製テーブルに置かれた化粧水と乳液、再生素材のボトルとグリーンの葉" data-focus="50% 32%">
+    </div>
+    <div class="carousel-slide" aria-hidden="true" data-cta-text="クリームを見る" data-cta-href="product-cream.html">
+      <img loading="lazy" decoding="async" src="AdobeStock_548184349_Preview.jpeg" srcset="
+    AdobeStock_548184349_Preview.jpeg 640w,
+    AdobeStock_548184349_Preview.jpeg 960w,
+    AdobeStock_548184349_Preview.jpeg 1440w" sizes="(min-width:1024px) 960px, 100vw" alt="朝の窓辺のやわらかな光とスキンケア一式、軽やかな印象"
+        data-focus="50% 30%">
+    </div>
+    <div class="carousel-slide" aria-hidden="true" data-cta-text="化粧水を見る" data-cta-href="product-toner.html">
+      <img loading="lazy" decoding="async" src="AdobeStock_480492977_Preview.jpeg" srcset="
+    AdobeStock_480492977_Preview.jpeg 640w,
+    AdobeStock_480492977_Preview.jpeg 960w,
+    AdobeStock_480492977_Preview.jpeg 1440w" sizes="(min-width:1024px) 960px, 100vw"
+        alt="ボタニカル成分と製品ボトルのクローズアップ、ラベルが読み取れる構図" data-focus="50% 35%">
+    </div>
+    <div class="carousel-slide" aria-hidden="true" data-cta-text="エッセンスを見る" data-cta-href="product-essence.html">
+      <img loading="lazy" decoding="async" src="AdobeStock_272372012_Preview.jpeg" srcset="
+    AdobeStock_272372012_Preview.jpeg 640w,
+    AdobeStock_272372012_Preview.jpeg 960w,
+    AdobeStock_272372012_Preview.jpeg 1440w" sizes="(min-width:1024px) 960px, 100vw"
+        alt="白背景に置かれた無地ボトルとガラス容器、自然光が差し込む静かな空間" data-focus="50% 39%">
+    </div>
+    <div class="carousel-dots" id="carouselDots" aria-label="スライドの位置を示すインジケーター"></div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <h2 class="features-heading">特徴</h2>
+    <div class="features-summary">
+      <div class="feature-box">
+        <h3>100%自然由来成分</h3>
+        <p>厳選された植物由来エキスで肌への刺激を最小限に。</p>
+      </div>
+      <div class="feature-box">
+        <h3>皮膚科医との共同開発</h3>
+        <p>敏感肌に悩む方のために開発された安心処方。</p>
+      </div>
+      <div class="feature-box">
+        <h3>無添加・無香料</h3>
+        <p>余計な成分を排除し、肌への負担を極力軽減。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews reveal" aria-labelledby="reviews-heading">
+    <h2 id="reviews-heading">ご愛用者の声</h2>
+    <div class="reviews-grid">
+      <!-- （レビュー内容は現状どおり） -->
+      <figure class="review-card">
+        <figcaption class="review-head">
+          <span class="avatar" aria-hidden="true">A</span>
+          <div class="meta">
+            <strong class="name">30代女性</strong>
+            <span class="label">乾燥肌 / 2ヶ月使用</span>
+          </div>
+          <div class="stars" aria-label="5点中5点">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+          </div>
+        </figcaption>
+        <p class="review-body">使い始めてから肌の調子が本当に良くなりました。特に朝のメイク前が楽です。</p>
+      </figure>
+
+      <!-- 以降のレビューも現状のまま -->
+      <figure class="review-card">
+        <figcaption class="review-head">
+          <span class="avatar" aria-hidden="true">B</span>
+          <div class="meta">
+            <strong class="name">20代男性</strong>
+            <span class="label">混合肌 / 1ヶ月使用</span>
+          </div>
+          <div class="stars" aria-label="5点中4点">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+          </div>
+        </figcaption>
+        <p class="review-body">ベタつかず、朝も夜も快適です。香りがないのも気に入っています。</p>
+      </figure>
+
+      <figure class="review-card">
+        <figcaption class="review-head">
+          <span class="avatar" aria-hidden="true">C</span>
+          <div class="meta">
+            <strong class="name">40代女性</strong>
+            <span class="label">敏感肌 / 3ヶ月使用</span>
+          </div>
+          <div class="stars" aria-label="5点中5点">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+          </div>
+        </figcaption>
+        <p class="review-body">低刺激で安心して使えます。肌が揺らぎにくくなりました。</p>
+      </figure>
+
+      <figure class="review-card">
+        <figcaption class="review-head">
+          <span class="avatar" aria-hidden="true">D</span>
+          <div class="meta">
+            <strong class="name">50代男性</strong>
+            <span class="label">普通肌 / 1ヶ月使用</span>
+          </div>
+          <div class="stars" aria-label="5点中4点">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 .587l3.668 7.431L24 9.75l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.6 0 9.75l8.332-1.732z" />
+            </svg>
+          </div>
+        </figcaption>
+        <p class="review-body">シェービング後もしみないので助かっています。家族にも勧めました。</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq reveal" itemscope itemtype="https://schema.org/FAQPage" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">よくある質問</h2>
+    <div class="faq-list">
+      <!-- （FAQは現状どおり） -->
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-q" itemprop="name">敏感肌でも使えますか？</summary>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">はい。全ての商品は無香料・着色料不使用・鉱物油不使用です。ご心配な場合はパッチテストをおすすめします。</p>
+        </div>
+      </details>
+      <!-- 他のQ&Aも省略せずに残しています -->
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-q" itemprop="name">どこで購入できますか？</summary>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">公式サイトの <a href="purchase.html">商品一覧</a> からご購入いただけます。一部ドラッグストアでもお取り扱いがあります。</p>
+        </div>
+      </details>
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-q" itemprop="name">配送にはどれくらいかかりますか？</summary>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">通常1〜3営業日で出荷いたします。混雑状況や地域により前後する場合があります。</p>
+        </div>
+      </details>
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-q" itemprop="name">返品・交換はできますか？</summary>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">未開封品に限り、商品到着後7日以内は返品・交換を承ります。状態確認のためお問い合わせください。</p>
+        </div>
+      </details>
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-q" itemprop="name">成分は何を基準に選定していますか？</summary>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">肌へのやさしさと実感値を重視し、必要最低限のシンプル処方で設計しています。</p>
+        </div>
+      </details>
+      <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="faq-q" itemprop="name">使い方の目安を教えてください。</summary>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">洗顔→化粧水→乳液（夜はクリーム追加）が基本です。肌状態に合わせて量を調整してください。</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 フェイスケアブランド株式会社</p>
+  </footer>
+
+  <script>
+    // ===== 共通値反映（header/hero 高さ計測） =====
+    function setHeroHeight() {
+      const header = document.querySelector('header');
+      const hero = document.querySelector('.carousel-container.hero');
+      if (!hero) return;
+      const vh = Math.min(window.innerHeight, document.documentElement.clientHeight);
+      const headerH = header?.offsetHeight || 0;
+      const SAFE = 14, minH = 360;
+      const heroH = Math.max(minH, vh - headerH - SAFE);
+      document.documentElement.style.setProperty('--hero-h', heroH + 'px');
+    }
+    function setHeaderHeightVar() {
+      const header = document.querySelector('header');
+      const h = header?.offsetHeight || 0;
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+      document.documentElement.style.setProperty('--hero-offset', '8px');
+    }
+    function recalc() { setHeaderHeightVar(); setHeroHeight(); }
+    window.addEventListener('DOMContentLoaded', recalc);
+    window.addEventListener('load', recalc);
+    window.addEventListener('resize', recalc);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(recalc); }
+
+    // ===== Carousel (crossfade) =====
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dotsContainer = document.getElementById('carouselDots');
+    const carousel = document.querySelector('.carousel-container');
+    let currentIndex = 0, autoSlideInterval;
+
+    function createDots() {
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot';
+        dot.setAttribute('aria-label', `${i + 1}枚目へ`);
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => showSlide(i));
+        dotsContainer.appendChild(dot);
+      });
+    }
+    function updateDots() {
+      const dots = document.querySelectorAll('.carousel-dot');
+      dots.forEach(d => d.classList.remove('active'));
+      if (dots[currentIndex]) dots[currentIndex].classList.add('active');
+    }
+    function updateAria() {
+      slides.forEach((s, i) => {
+        const active = i === currentIndex;
+        s.setAttribute('aria-hidden', String(!active));
+        s.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+    }
+    function showSlide(index) {
+      const prev = currentIndex;
+      currentIndex = (index + slides.length) % slides.length;
+      slides[prev]?.classList.remove('active');
+      slides[currentIndex]?.classList.add('active');
+
+      const img = slides[currentIndex].querySelector('img');
+      const focus = img?.dataset.focus || '50% 30%';
+      if (img) img.style.objectPosition = focus;
+
+      // ★ 追加：ヒーローCTAを現在スライドに合わせて更新
+      const heroCta = document.getElementById('heroCta');
+      const s = slides[currentIndex];
+      const t = s?.dataset.ctaText, href = s?.dataset.ctaHref;
+      if (heroCta && t && href) {
+        heroCta.textContent = t;
+        heroCta.setAttribute('href', href);
+      }
+
+      updateDots(); updateAria();
+    }
+    function changeSlide(step) { showSlide(currentIndex + step); }
+    function startAutoSlide() { stopAutoSlide(); autoSlideInterval = setInterval(() => changeSlide(1), 5000); }
+    function stopAutoSlide() { if (autoSlideInterval) clearInterval(autoSlideInterval); }
+
+    createDots(); showSlide(0); startAutoSlide();
+    carousel.addEventListener('mouseenter', stopAutoSlide);
+    carousel.addEventListener('mouseleave', startAutoSlide);
+    carousel.addEventListener('focusin', stopAutoSlide);
+    carousel.addEventListener('focusout', startAutoSlide);
+
+    // ===== Reveal animation (IntersectionObserver) =====
+    (function () {
+      const els = document.querySelectorAll('.reveal');
+      if (!els.length) return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        els.forEach(el => el.classList.add('in'));
+        return;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+      els.forEach(el => io.observe(el));
+    })();
+
+    document.addEventListener('click', e => {
+      const a = e.target.closest('#heroCta');
+      if (!a || !window.gtag) return;
+      gtag('event', 'select_promotion', {
+        promotion_name: 'hero_slide_cta',
+        creative_slot: a.textContent.trim()
+      });
+    });
+  </script>
+</body>
+
+</html>

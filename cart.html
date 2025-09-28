@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 置換用（cart.html の <head> 内へ） -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>カート | フェイスケアブランド</title>
+
+  <meta name="description" content="ご注文前のカート内容を確認・編集いただけます。">
+  <link rel="canonical" href="https://YOUR.DOMAIN/cart.html">
+
+  <meta property="og:site_name" content="フェイスケアブランド">
+  <meta property="og:title" content="カート | フェイスケアブランド">
+  <meta property="og:description" content="ご注文前のカート内容を確認・編集いただけます。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://YOUR.DOMAIN/cart.html">
+  <meta property="og:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-cart.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="カート | フェイスケアブランド">
+  <meta name="twitter:description" content="ご注文前のカート内容を確認・編集いただけます。">
+  <meta name="twitter:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-cart.jpg">
+
+
+  <!-- 共通スタイル -->
+  <link rel="stylesheet" href="styles/site.css" />
+
+  <style>
+    /* ==== cart 固有スタイル（テーブル等） ==== */
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f7f7f7;
+    }
+
+    .total {
+      text-align: right;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .checkout-btn {
+      display: inline-block;
+      text-align: center;
+      background-color: var(--brand, #e38b8b);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .checkout-btn:hover {
+      filter: brightness(0.95);
+    }
+
+    .delete-btn {
+      background-color: #e9e9e9;
+      color: #333;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: #dcdcdc;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 共通：固定ヘッダー（indexと完全統一） -->
+  <header>
+    <div class="header-inner">
+      <h1>余計なものは、入れない。肌に必要なものだけを。</h1>
+      <p>香料・着色料・鉱物油 不使用。毎日、安心して続けられるシンプルケア。</p>
+      <nav class="mini-nav nav--underline" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="purchase.html">Products</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="cart.html" aria-current="page">Cart</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!-- 共通：固定ヘッダー分のスペーサー -->
+  <div class="header-spacer" aria-hidden="true"></div>
+
+  <main>
+    <h2 class="section-title">ショッピングカート</h2>
+
+    <!-- main 内：テーブルと合計部分だけ更新 -->
+    <table id="cartTable">
+      <caption class="sr-only">ショッピングカート内の商品一覧</caption>
+      <thead>
+        <tr>
+          <th scope="col">商品名</th>
+          <th scope="col">価格</th>
+          <th scope="col">削除</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <p class="total" id="totalPrice" aria-live="polite">合計: ¥0</p>
+
+    <p>
+      <a href="checkout.html" class="checkout-btn" id="checkoutBtn">購入へ進む</a>
+    </p>
+
+  </main>
+
+  <footer>
+    &copy; 2025 フェイスケアブランド株式会社
+  </footer>
+
+  <script>
+  function getCartSafely(){
+    try{
+      const raw = localStorage.getItem('cart');
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    }catch(e){ console.warn('Cart parse error:', e); return []; }
+  }
+
+  const JPY = new Intl.NumberFormat('ja-JP');
+
+  function toNumberYen(v){
+    if (typeof v === 'string') v = v.replace(/[¥,\s]/g,'');
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function renderCart(){
+    const cart = getCartSafely();
+    const tbody = document.querySelector('#cartTable tbody');
+    const totalDisplay = document.getElementById('totalPrice');
+    const goCheckout = document.getElementById('checkoutBtn');
+    tbody.innerHTML = '';
+    let total = 0;
+
+    if (cart.length === 0){
+      const row = document.createElement('tr');
+      row.innerHTML = `<td colspan="3">カートに商品はありません。<a href="purchase.html">商品一覧へ</a></td>`;
+      tbody.appendChild(row);
+      goCheckout.setAttribute('aria-disabled','true');
+      goCheckout.setAttribute('tabindex','-1');
+      totalDisplay.textContent = '合計: ¥0';
+      return;
+    } else {
+      goCheckout.removeAttribute('aria-disabled');
+      goCheckout.removeAttribute('tabindex');
+    }
+
+    cart.forEach((item, index)=>{
+      const priceNum = toNumberYen(item.price);
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.name ?? ''}</td>
+        <td>¥${JPY.format(priceNum)}</td>
+        <td><button type="button" class="delete-btn" data-index="${index}">削除</button></td>`;
+      tbody.appendChild(row);
+      total += priceNum;
+    });
+
+    totalDisplay.textContent = `合計: ¥${JPY.format(total)}`;
+  }
+
+  function removeItem(index){
+    const cart = getCartSafely();
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+  }
+
+  // 削除はイベント委譲でOK
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.delete-btn');
+    if (!btn) return;
+    const i = Number(btn.dataset.index);
+    if (Number.isInteger(i)) removeItem(i);
+  });
+
+  // 空なら購入ボタンを無効に（クリック防止）
+  document.addEventListener('click', (e)=>{
+    const go = e.target.closest('#checkoutBtn');
+    if (!go) return;
+    if (go.getAttribute('aria-disabled') === 'true') e.preventDefault();
+  });
+
+  document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+
+</body>
+
+</html>

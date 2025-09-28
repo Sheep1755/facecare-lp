@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- 置換：<head> 内のSEO/OG/Twitterブロックをこれに -->
+  <title>購入手続き | フェイスケアブランド</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="お届け先・お支払い方法を入力してご注文を確定します。">
+  <link rel="canonical" href="https://YOUR.DOMAIN/checkout.html">
+
+  <meta property="og:site_name" content="フェイスケアブランド">
+  <meta property="og:title" content="購入手続き | フェイスケアブランド">
+  <meta property="og:description" content="お届け先・お支払い方法を入力してご注文を確定します。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://YOUR.DOMAIN/checkout.html">
+  <meta property="og:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-checkout.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="購入手続き | フェイスケアブランド">
+  <meta name="twitter:description" content="お届け先・お支払い方法を入力してご注文を確定します。">
+  <meta name="twitter:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-checkout.jpg">
+
+  <!-- 共通スタイル -->
+  <link rel="stylesheet" href="styles/site.css" />
+
+  <!-- Stripe -->
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <style>
+    /* ==== checkout 固有スタイル（統一感のための余白＆幅） ==== */
+    /* ヘッダー見出しの余白だけ軽く整える（このページはコピーなし） */
+    header .header-inner>h1 {
+      margin: 10px 0 8px;
+      text-align: center;
+      font-size: 1.8em;
+      letter-spacing: .02em;
+      color: var(--ink, #222);
+    }
+
+    main {
+      max-width: 600px;
+      margin: 28px auto 64px;
+      padding: 0 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      color: var(--ink, #222);
+      margin-bottom: 6px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font: inherit;
+      background: #fff;
+    }
+
+    .submit-btn {
+      align-self: center;
+      border: 0;
+      border-radius: 10px;
+      background: var(--brand, #e38b8b);
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 24px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .submit-btn:hover {
+      filter: brightness(.96);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 共通：固定ヘッダー（ナビは共通・見出しはこのページ専用） -->
+  <header>
+    <div class="header-inner">
+      <h1>購入手続き</h1>
+      <nav class="mini-nav nav--underline" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="purchase.html">Products</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <section class="usp-bar usp--rail">
+      </section>
+    </div>
+  </header>
+  <!-- 固定ヘッダー分のスペーサー -->
+  <div class="header-spacer" aria-hidden="true"></div>
+
+  <main>
+    <form id="checkout-form" novalidate>
+      <div>
+        <label for="name">お名前</label>
+        <input type="text" id="name" name="name" required autocomplete="name" />
+      </div>
+
+      <div>
+        <label for="email">メールアドレス</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+
+      <div>
+        <label for="address">お届け先住所</label>
+        <input type="text" id="address" name="address" required autocomplete="shipping street-address" />
+      </div>
+
+      <div>
+        <label for="payment">支払い方法</label>
+        <select id="payment" name="payment" required>
+          <option value="">選択してください</option>
+          <option value="credit">クレジットカード（Stripe連携）</option>
+          <option value="bank">銀行振込</option>
+          <option value="cod">代金引換</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn">購入を確定する</button>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 フェイスケアブランド株式会社
+  </footer>
+
+  <script>
+    // Stripe 公開鍵（テスト用）
+    const stripe = Stripe("pk_test_51Rmw7QCMxV2ai1wUSUZCzCq8DzzVFgSolAA8mSi1Fc1pxStb3M2wZFJ171mugSWJ9uo7P8rMtyeIGFR4UO52m1JJ00HmL3yUci");
+
+    document.getElementById("checkout-form").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const paymentMethod = document.getElementById("payment").value;
+
+      if (paymentMethod === "credit") {
+        try {
+          const res = await fetch("/create-checkout-session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ items: [{ id: "facecare-basic-set", quantity: 1 }] })
+          });
+          const data = await res.json();
+          if (!data || !data.id) throw new Error("Invalid session response");
+          await stripe.redirectToCheckout({ sessionId: data.id });
+        } catch (err) {
+          console.error("Stripe checkout error:", err);
+          alert("決済ページの起動に失敗しました。時間をおいて再度お試しください。");
+        }
+      } else {
+        // クレジット以外はダミーフローで完了ページへ
+        window.location.href = "thankyou.html";
+      }
+    });
+  </script>
+</body>
+
+</html>

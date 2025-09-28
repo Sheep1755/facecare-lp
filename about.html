@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>私たちについて | フェイスケアブランド</title>
+  <!-- 基本メタ（全ページ共通の土台） -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- SEO -->
+<meta name="description" content="（各ページ固有の要約 50〜120文字。下に例あり）">
+<link rel="canonical" href="https://example.com/（このページのパス）">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="フェイスケアブランド">
+<meta property="og:title" content="（titleと同等）">
+<meta property="og:description" content="（上のdescriptionと同等）">
+<meta property="og:type" content="website"> <!-- 製品ページは 'product' に変更 -->
+<meta property="og:url" content="https://example.com/（このページのパス）">
+<meta property="og:image" content="https://example.com/assets/ogp/（ページ用OGP画像）.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="（titleと同等）">
+<meta name="twitter:description" content="（descriptionと同等）">
+<meta name="twitter:image" content="https://example.com/assets/ogp/（ページ用OGP画像）.jpg">
+
+
+  <!-- 共通スタイル -->
+  <link rel="stylesheet" href="styles/site.css" />
+
+  <style>
+    /* ===== about 固有：Hero（静止） ===== */
+    .hero {
+      position: relative;
+      max-width: 1040px;
+      margin: 24px auto 28px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+      aspect-ratio: 1091/420;
+      isolation: isolate;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: contrast(1.02) saturate(1.02)
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .22) 0%, rgba(0, 0, 0, .08) 38%, rgba(0, 0, 0, .42) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      position: absolute;
+      z-index: 2;
+      left: 5%;
+      bottom: 8%;
+      color: #fff;
+      max-width: 680px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, .35)
+    }
+
+    .hero-copy h2 {
+      margin: 0 0 8px;
+      font-size: clamp(22px, 4.2vw, 36px);
+      letter-spacing: .06em
+    }
+
+    .hero-copy p {
+      margin: 0 0 14px;
+      font-size: clamp(14px, 2.2vw, 16px);
+      opacity: .95
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, .18);
+      border: 1px solid rgba(255, 255, 255, .5);
+      color: #fff;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .8rem;
+      backdrop-filter: saturate(120%) blur(4px)
+    }
+
+    /* ===== about 固有：見出し/リード（トーン調整だけ） ===== */
+    .section-title {
+      font-size: 1.6em;
+      color: var(--ink);
+      margin: 0 0 16px
+    }
+
+    .lead {
+      color: var(--muted);
+      margin-top: -4px;
+      margin-bottom: 18px
+    }
+
+    /* ===== about 固有：カード/グリッド ===== */
+    .grid {
+      display: grid;
+      gap: 16px
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr)
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr)
+    }
+
+    @media (max-width:900px) {
+      .grid.cols-3 {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media (max-width:680px) {
+
+      .grid.cols-3,
+      .grid.cols-2 {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px;
+      border: 1px solid rgba(0, 0, 0, .06);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 1.1em
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted)
+    }
+
+    /* ===== about 固有：ドット付きリスト ===== */
+    .list {
+      display: grid;
+      gap: 10px
+    }
+
+    .list li {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #e9bcbc;
+      flex: 0 0 auto;
+      transform: translateY(5px)
+    }
+
+    /* ===== about 固有：タイムライン ===== */
+    .timeline {
+      position: relative;
+      padding-left: 20px
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(0, 0, 0, .08)
+    }
+
+    .tl-item {
+      position: relative;
+      margin: 10px 0 14px
+    }
+
+    .tl-item::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: .3em;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #e9bcbc;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, .08)
+    }
+
+    .tl-item time {
+      display: block;
+      font-size: .85rem;
+      color: #777;
+      margin-bottom: 2px
+    }
+
+    /* ===== about 固有：CTA（コールアウト） ===== */
+    .callout {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
+    }
+
+    .callout .text {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--brand);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600
+    }
+
+    section.reveal {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 共通：固定ヘッダー（indexと同マークアップに統一） -->
+  <header>
+    <div class="header-inner">
+      <h1>余計なものは、入れない。肌に必要なものだけを。</h1>
+      <p>香料・着色料・鉱物油 不使用。毎日、安心して続けられるシンプルケア。</p>
+      <nav class="mini-nav nav--underline" aria-label="Main">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="purchase.html">Products</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <section class="usp-bar usp--rail">
+      </section>
+    </div>
+  </header>
+  <div class="header-spacer" aria-hidden="true"></div>
+
+  <!-- Hero（about固有） -->
+  <section class="hero" aria-label="ブランドイメージ">
+    <img src="AdobeStock_548184349_Preview.jpeg" alt="朝の窓辺の柔らかな光の中に置かれたスキンケアボトル">
+    <div class="hero-copy">
+      <h2>肌にも、地球にも、やさしく。</h2>
+      <p>毎日使うものだから、誠実に。成分はシンプルに、体験は豊かに。</p>
+      <div class="badge-row" aria-label="ブランドのポリシー">
+        <span class="badge">無香料</span>
+        <span class="badge">着色料不使用</span>
+        <span class="badge">鉱物油不使用</span>
+        <span class="badge">敏感肌テスト済み</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- 理念 -->
+    <section class="reveal">
+      <h2 class="section-title">私たちの理念</h2>
+      <p class="lead">「必要なものだけを、正直に。」 肌負担を増やす装飾は避け、毎日の続けやすさを第一に考えています。</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>シンプル処方</h3>
+          <p>役割が重複する成分は極力省き、肌への刺激要因を減らします。</p>
+        </div>
+        <div class="card">
+          <h3>毎日の使いやすさ</h3>
+          <p>ベタつかず、季節や性別を問わず手に取りやすい質感。</p>
+        </div>
+        <div class="card">
+          <h3>誠実な情報開示</h3>
+          <p>成分や試験結果をわかりやすく、曖昧さなくお伝えします。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 成分方針 -->
+    <section class="reveal" aria-labelledby="ingredients">
+      <h2 id="ingredients" class="section-title">成分方針</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>配合するもの</h3>
+          <ul class="list">
+            <li><span class="dot"></span><span>角層のうるおいを補う保湿成分（例：グリセリン、BG など）</span></li>
+            <li><span class="dot"></span><span>肌バランスを整える整肌成分</span></li>
+            <li><span class="dot"></span><span>必要最小限の安定化成分</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>配合しないもの</h3>
+          <ul class="list">
+            <li><span class="dot"></span><span>合成香料・着色料</span></li>
+            <li><span class="dot"></span><span>鉱物油</span></li>
+            <li><span class="dot"></span><span>不必要なカプセル化演出成分</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- サステナビリティ -->
+    <section class="reveal" aria-labelledby="sustain">
+      <h2 id="sustain" class="section-title">環境への配慮</h2>
+      <p class="lead">使い続けられる価格と設計で、無理のないサステナブルを。</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>再生素材容器</h3>
+          <p>一部に再生PETを採用。順次対象を拡大します。</p>
+        </div>
+        <div class="card">
+          <h3>詰め替えパック</h3>
+          <p>ボトル廃棄量の削減に寄与。軽量で輸送時のCO₂も抑制。</p>
+        </div>
+        <div class="card">
+          <h3>最小限パッケージ</h3>
+          <p>過剰な化粧箱・付属品を減らし、資源使用を抑えます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- タイムライン -->
+    <section class="reveal" aria-labelledby="history">
+      <h2 id="history" class="section-title">歩み</h2>
+      <div class="timeline">
+        <div class="tl-item"><time>2023</time>
+          <div>企画開始。シンプル処方と無香料ポリシーを策定。</div>
+        </div>
+        <div class="tl-item"><time>2024</time>
+          <div>皮膚科医監修のもと試験・改良。日常使用性の検証を重視。</div>
+        </div>
+        <div class="tl-item"><time>2025</time>
+          <div>ベーシックラインを発売。詰め替え対応と容器の再生素材化を開始。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 監修/チーム -->
+    <section class="reveal" aria-labelledby="team">
+      <h2 id="team" class="section-title">監修とチーム</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>皮膚科医 監修</h3>
+          <p>敏感肌の方にも配慮したテスト設計とレビュー体制を採用。</p>
+        </div>
+        <div class="card">
+          <h3>開発チーム</h3>
+          <p>日常的な使い心地の検証と、誠実な情報開示をチーム全員で徹底。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="reveal">
+      <div class="callout">
+        <div class="text">まずはベーシックラインから。毎日のケアを、軽やかに。</div>
+        <div class="actions">
+          <a class="btn" href="purchase.html">ラインを見る</a>
+          <a class="btn" href="cart.html" style="background:#555">カートを見る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2025 フェイスケアブランド株式会社</footer>
+
+  <!-- 共通：ヘッダー高さをCSS変数へ（indexと同等の見え方のため） -->
+  <script>
+    function setHeaderVars() {
+      const h = document.querySelector('header')?.offsetHeight || 0;
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+    }
+    window.addEventListener('load', setHeaderVars);
+    window.addEventListener('resize', setHeaderVars);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(setHeaderVars); }
+  </script>
+
+  <!-- Reveal（暫定：将来 site.js に昇格） -->
+  <script>
+    (function () {
+      const els = document.querySelectorAll('.reveal');
+      if (!els.length) return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) { els.forEach(el => el.classList.add('in')); return; }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+
+      els.forEach(el => io.observe(el));
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,567 @@
+/* ========== Design Tokens ========== */
+:root {
+  --brand: #e38b8b;
+  --ink: #222;
+  --text: #333;
+  --muted: #555;
+  --paper: #fff;
+  --panel: #f8f9fa;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 14px;
+  --shadow: 0 2px 10px rgba(0, 0, 0, .05);
+  --max: 1040px;
+
+  /* タイポ＆間隔スケール */
+  --fs-xxs: .8rem;
+  --fs-xs: .9rem;
+  --fs-sm: 1rem;
+  --fs: 1.05rem;
+  --fs-lg: 1.2rem;
+  --fs-xl: 1.4rem;
+  --fs-2xl: 1.8rem;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+}
+
+/* ========== Base ========== */
+* {
+  box-sizing: border-box
+}
+
+html,
+body {
+  height: 100%
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: 'Helvetica Neue', system-ui, -apple-system, 'Segoe UI', Roboto, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+  line-height: 1.65;
+  letter-spacing: .02em;
+}
+
+img {
+  max-width: 100%;
+  display: block
+}
+
+/* ヘッダー＆ミニナビ（共通） */
+header{
+  position: fixed;            /* ← sticky から fixed へ */
+  top: 0; left: 0; right: 0;  /* 横いっぱいに */
+  width: 100%;
+  z-index: 1000;
+  background: var(--panel);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  box-sizing: border-box;     /* パディングを幅に含める */
+}
+
+/* ヘッダー内の幅を制御する内側ラッパ（max-widthをここに集約） */
+.header-inner{
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 12px 20px 0px 20px;         /* ここで高さを調整 */
+  text-align: center;  
+}
+
+header h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.1em;
+  font-weight: 600;
+  letter-spacing: .04em
+}
+
+header .sub {
+  margin: 6px 0 0;
+  font-size: var(--fs-xs);
+  color: #555
+}
+
+header p { font-size: 0.85em; margin: 6px auto 10px; } 
+
+header .cta{ margin: 6px 0 8px; }
+
+header .cta .btn {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+/* 固定ヘッダーの“分”だけ押し下げるスペーサー（高さはJSで入れる） */
+.header-spacer{ height: var(--header-h, 120px); }
+
+ .carousel-container.hero {
+   margin: 8px auto 8px;        /* ★ 以前の余白感に近づける（お好みで14〜24px） */
+   aspect-ratio: auto;
+   height: var(--hero-h, 520px); 
+   min-height: 360px;
+  border-radius: 16px;
+   max-width: 1040px;
+   box-sizing: border-box;
+   border-radius: 14px;           /* 角丸や影が消えてたら復活 */
+   box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.mini-nav {
+  background: transparent;            /* 背景はheaderに任せる */
+  border-top: 1px solid rgba(0,0,0,.06);
+  border-bottom: 0;                    /* 以前の下線があれば外す */
+  padding: 8px 0 0;                    /* 上だけ少し余白 */
+}
+
+
+
+.mini-nav ul{ list-style:none; margin:0; padding:0; display:flex; justify-content:center; gap:18px; }
+
+.mini-nav a {
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color .2s
+}
+
+.mini-nav a:hover {
+  color: #00796b
+}
+
+/* レイアウト */
+.container {
+  max-width: var(--max);
+  margin: 28px auto;
+  padding: 0 20px
+}
+
+.section {
+  margin: var(--space-8) 0
+}
+
+.section-title {
+  font-size: var(--fs-xl);
+  color: var(--ink);
+  margin: 0 0 var(--space-4)
+}
+
+section:first-of-type {
+  margin-top: 0 !important;
+}
+
+/* グリッド */
+.grid {
+  display: grid;
+  gap: 16px
+}
+
+.grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr)
+}
+
+@media(max-width:900px) {
+  .grid.cols-3 {
+    grid-template-columns: 1fr 1fr
+  }
+}
+
+@media(max-width:680px) {
+  .grid.cols-3 {
+    grid-template-columns: 1fr
+  }
+}
+
+/* カード */
+.card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .06);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: var(--space-4)
+}
+
+.badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px
+}
+
+.badge {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .1);
+  color: #333;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: .75rem
+}
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  background: var(--brand);
+  color: #fff;
+  text-decoration: none;
+  border: 0;
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .08s ease, filter .2s ease;
+  text-align: center
+}
+
+.btn:hover {
+  filter: brightness(.98)
+}
+
+.btn:active {
+  transform: translateY(1px)
+}
+
+.btn:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px
+}
+
+.btn.--secondary {
+  background: #555
+}
+
+.btn.--ghost {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, .15);
+  color: #333
+}
+
+/* 入力（フォーム） */
+.input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #fff
+}
+
+.input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #bbb;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, .04)
+}
+
+.row {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr
+}
+
+@media(max-width:560px) {
+  .row {
+    grid-template-columns: 1fr
+  }
+}
+
+/* コンポーネント：商品カード */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+}
+
+.product-media {
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: #fafafa
+}
+
+.product-title {
+  margin: 6px 0 0;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: var(--fs)
+}
+
+.product-desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-sm)
+}
+
+.price-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 6px
+}
+
+.price {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--ink)
+}
+
+.tax {
+  font-size: var(--fs-xs);
+  color: #777
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto
+}
+
+/* フッター */
+footer {
+  background: #f1f1f1;
+  text-align: center;
+  padding: 20px;
+  font-size: .9em;
+  margin-top: var(--space-10)
+}
+
+/* 軽いフェード */
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms ease, transform 600ms ease
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important
+  }
+}
+
+/* ヒーローの最初のセクションだけはヘッダー分の余白を消す */
+.hero {
+  margin-top: 0 !important;
+  padding: 0 !important;
+}
+
+/* USP icon bar */
+.usp-bar{
+  display:flex; gap:16px; align-items:center; justify-content:center;
+  margin:8px auto 0; padding:8px 12px; max-width:var(--page-w,1120px);
+  color:#444; opacity:.95;
+}
+.usp-item{
+  display:inline-flex; align-items:center; gap:8px;
+  background:#fff; border:1px solid rgba(0,0,0,.08); border-radius:999px;
+  padding:6px 12px; font-size:.9rem; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.04);
+  font-weight: 600 !important;
+}
+.usp-item svg{ width:16px; height:16px; fill:#e38b8b; opacity:.95; }
+@media (max-width:760px){
+  .usp-bar{ overflow:auto; justify-content:flex-start; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .usp-bar::-webkit-scrollbar{ display:none; }
+}
+
+/* =============================================================
+   Overrides v5 (brand restored & headline/subcopy controls)
+   ============================================================= */
+
+/* 会社名：左寄せ + 上下中央（HTML改変なし） */
+.header-inner { position: relative !important; }
+.header-inner::before{
+  content: "フェイスケアブランド社";
+  position: absolute;
+  left: 8px;                 /* 必要なら 6px / 4px に */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: .9rem;
+  letter-spacing: .12em;
+  color: #6d7278;
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 1;
+}
+@media (max-width: 420px){
+  .header-inner::before{ left: 6px; font-size: .85rem; }
+}
+
+/* 見出し：1行固定 + 自動縮小（約4px小さく） */
+header h1{
+  white-space: nowrap;        /* 折り返し禁止 */
+  word-break: keep-all;
+  font-weight: 800 !important;
+  font-size: clamp(12px, calc((100vw - 60px) / 27), 28px) !important;
+  line-height: 1.3;
+  letter-spacing: .01em;
+  color: #111;
+  margin: 2px auto 10px !important;
+}
+
+/* サブコピー：途中改行をさせない + 自動縮小 */
+header p{
+  white-space: nowrap;
+  word-break: keep-all;
+  font-weight: 500 !important;
+  font-size: clamp(12px, calc((100vw - 60px) / 28), 16px) !important;
+  line-height: 1.6;
+  color: #606468 !important;
+  margin: 0 auto 14px !important;
+}
+
+/* Wash Bar：標準 */
+header{
+  background-color: var(--panel);
+  background-image:
+    linear-gradient(180deg, #ecf8f3 0%, rgba(236,248,243,0.9) 36%, rgba(236,248,243,0) 90%);
+  background-repeat: no-repeat;
+  background-size: 100% 180px;
+}
+.header-inner{ position: relative; z-index: 1; }
+
+/* ベース */
+.mini-nav ul{ display:flex; gap:24px; justify-content:center; }
+.mini-nav a{ color:#2f3235; text-decoration:none; position:relative; padding:2px 2px; }
+
+/* 下線で“リンクぽさ”を出す */
+.nav--underline a::after{
+  content:""; position:absolute; left:0; right:0; bottom:-8px; height:2px;
+  background:#1c1f21; transform:scaleX(0); transform-origin:center; transition:transform .18s ease;
+  opacity:.9;
+}
+.nav--underline a:hover::after,
+.nav--underline a:focus-visible::after,
+.nav--underline a[aria-current="page"]::after{ transform:scaleX(1); }
+
+/* キーボードでも分かる */
+.mini-nav a:focus-visible{ outline:2px solid rgba(0,0,0,.15); outline-offset:4px; border-radius:4px; }
+
+/* ===========================
+   USP Rail 最終パッチ
+   ・ドットが切れない（要素内側に配置）
+   ・“ピル風”の名残を無効化してスリム化
+   ・縦の余白を圧縮してヒーローに干渉しない
+   =========================== */
+:root{ --usp-accent: #e38b8b; }
+
+/* セクション自体の余白をコンパクトに */
+.usp-bar.usp--rail{
+  background: transparent;
+  border-bottom: 1px solid #eee;
+  margin: 4px 0 6px;
+  padding: 0;
+}
+
+/* リストの並びと余白 */
+.usp--rail .usp-list{
+  list-style: none;
+  margin: 0;
+  padding: 12px 8px;
+  display: flex;
+  justify-content: center;
+  gap: 0 20px;        /* 横だけ間隔 */
+  flex-wrap: wrap;
+  overflow: visible;  /* ドットが切れないように */
+}
+
+/* アイテム：ピル化の名残を無効化して文字中心に */
+.usp--rail .usp-item{
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 0 2px 14px;   /* ドット分の左余白 */
+  margin: 0;
+  color: #3a3f44;
+  font-weight: 600;
+  font-size: .95rem;
+  letter-spacing: .05em;
+  line-height: 1.5;
+  overflow: visible;
+}
+
+/* ドットはアイテムの内側に（= もう見切れない） */
+.usp--rail .usp-item::before{
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--usp-accent);
+  transform: translateY(-50%);
+}
+
+/* 区切りは左ボーダーで控えめに */
+.usp--rail .usp-item + .usp-item{
+  border-left: 1px solid #e6eaed;
+  padding-left: 22px; /* 区切りの後ろの余白 */
+  margin-left: 10px;
+}
+
+/* 旧スタイル（::afterの区切り線など）が残っていたら無効化 */
+.usp--rail .usp-item + .usp-item::after{ content: none !important; }
+
+/* Nav下線とUSPの間をすこし広げる */
+.nav--underline a::after{ bottom: -6px; }   /* いま -8px → 上に2px寄せる */
+.usp-bar.usp--rail{ margin-top: 10px; }     /* いま 4px → +6pxだけ増やす */
+
+/* === checkout 専用スペーサー調整（:has サポート環境）=== */
+/* このページには #checkout-form があるので、それを手掛かりに header-spacer を大きくする */
+body:has(#checkout-form) .header-spacer{
+  /* まずは 140px で様子見。まだ近ければ 148〜156px に */
+  height: 156px;
+}
+
+/* 余白を少し整える（任意） */
+body:has(#checkout-form) main{
+  margin-top: 16px; /* 8〜16pxで微調整可 */
+}
+
+/* About 専用：ヘッダーとヒーローの間に8〜12pxだけ余白 */
+body:has(.badge-row) .header-spacer{
+  margin-bottom: 14px; /* 好みで 8〜12 に調整 */
+}
+
+/* 共通（未定義なら） */
+.header-spacer{ height: var(--header-h, 96px); }
+
+/* thankyouページだけ少し多めに押し下げる */
+.page-thankyou .header-spacer{
+  height: calc(var(--header-h, 96px) + 56px); /* まだ近ければ 60〜64px に */
+}
+.page-thankyou main{ margin-top: 12px; } /* 余白の微調整。不要なら削除OK */
+
+/* site.css 末尾に追加：視覚非表示ユーティリティ＆無効ボタン */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.checkout-btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+
+.checkout-btn[aria-disabled="true"]{
+  opacity:.5;
+  pointer-events:none; /* 念のためのクリック無効 */
+}
+
+.checkout-btn{ background-color: var(--accent, #e38b8b); }
+
+body:has(#checkout-form) .usp-bar{ display: none; }
+
+:root{ --brand: var(--accent, #e38b8b); }
+
+body:has(#contactForm) .usp-bar{ display:none; }
+
+body:has(main[itemtype="https://schema.org/Product"]) .usp-bar{ display:none; }
+
+

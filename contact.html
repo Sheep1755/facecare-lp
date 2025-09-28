@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <title>お問い合わせ | フェイスケアブランド</title>
+  <title>お問い合わせ | フェイスケアブランド</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="製品・ご注文に関するご質問はこちらのフォームよりお気軽にお問い合わせください。">
+  <link rel="canonical" href="https://YOUR.DOMAIN/contact.html">
+
+  <meta property="og:site_name" content="フェイスケアブランド">
+  <meta property="og:title" content="お問い合わせ | フェイスケアブランド">
+  <meta property="og:description" content="製品・ご注文に関するご質問はこちらのフォームよりお気軽にお問い合わせください。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://YOUR.DOMAIN/contact.html">
+  <meta property="og:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-contact.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="お問い合わせ | フェイスケアブランド">
+  <meta name="twitter:description" content="製品・ご注文に関するご質問はこちらのフォームよりお気軽にお問い合わせください。">
+  <meta name="twitter:image" content="https://YOUR.DOMAIN/assets/ogp/ogp-contact.jpg">
+
+
+  <!-- 共通スタイル -->
+  <link rel="stylesheet" href="styles/site.css" />
+
+  <style>
+    /* ==== contact 固有スタイル ==== */
+    header .header-inner>h1 {
+      margin: 10px 0 8px;
+      text-align: center;
+      font-size: 1.8em;
+      letter-spacing: .02em;
+      color: var(--ink, #222);
+    }
+
+    main {
+      max-width: 720px;
+      margin: 28px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+      padding: 20px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 1.4rem;
+      color: var(--ink);
+    }
+
+    p.lead {
+      margin: 0 0 18px;
+      color: #666;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media(max-width:560px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--accent, #e38b8b);
+      color: #fff;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: #555;
+    }
+
+    .btn[disabled] {
+      opacity: .6;
+      cursor: progress;
+    }
+
+    .status {
+      font-size: .95rem;
+      margin-top: 4px;
+    }
+
+    .status.ok {
+      color: #126a3a;
+    }
+
+    .status.ng {
+      color: #a33;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 共通：固定ヘッダー（このページ専用タイトルを表示） -->
+  <header>
+    <div class="header-inner">
+      <h1>お問い合わせ</h1>
+      <nav class="mini-nav nav--underline" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="purchase.html">Products</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+      <section class="usp-bar usp--rail">
+      </section>
+    </div>
+  </header>
+  <div class="header-spacer" aria-hidden="true"></div>
+
+  <main class="reveal">
+    <section class="card" aria-labelledby="contact-title">
+      <h2 id="contact-title">お問い合わせフォーム</h2>
+      <p class="lead">ご質問やお仕事のご相談は、以下のフォームからお気軽にお送りください。</p>
+
+      <form id="contactForm" action="/send-contact" method="POST" novalidate>
+        <div class="row">
+          <div>
+            <label for="name">お名前</label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+          <div>
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+        </div>
+
+        <div>
+          <label for="message">お問い合わせ内容</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+
+        <!-- honeypot（人には見えない。ボット対策） -->
+        <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+          <label for="company">会社名（空欄のまま送信してください）</label>
+          <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="actions">
+          <button class="btn" type="submit" id="submitBtn">送信する</button>
+        </div>
+
+        <p id="formStatus" class="status" role="status" tabindex="-1" aria-live="polite" hidden></p>
+      </form>
+
+      <p class="status" style="color:#666;margin-top:12px">
+        ※ フォームがご利用になれない場合は <a href="mailto:support@example.com">support@example.com</a> までご連絡ください。
+      </p>
+    </section>
+  </main>
+
+  <footer>&copy; 2025 フェイスケアブランド株式会社</footer>
+
+  <script>
+    // フェードイン
+    (() => {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window) || !els.length) {
+        els.forEach(e => e.classList.add('in')); return;
+      }
+      const io = new IntersectionObserver(es => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in'); io.unobserve(e.target);
+          }
+        });
+      }, { threshold: .12 });
+      els.forEach(e => io.observe(e));
+    })();
+
+    // 送信処理（fetchでJSON POST）
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('formStatus');
+    const btn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      if (!form.checkValidity()) { return; }
+      e.preventDefault();
+
+      if ((form.company || {}).value) {
+        statusEl.hidden = false; statusEl.className = 'status ok';
+        statusEl.textContent = '送信しました。'; form.reset(); return;
+      }
+
+      btn.disabled = true; btn.textContent = '送信中…'; btn.setAttribute('aria-disabled', 'true');
+      statusEl.hidden = true; statusEl.textContent = '';
+
+      try {
+        const payload = {
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          message: form.message.value.trim(),
+          company: (form.company || {}).value || ''
+        };
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error();
+        statusEl.className = 'status ok';
+        statusEl.textContent = '送信が完了しました。担当よりご連絡します。';
+        statusEl.hidden = false;
+        statusEl.focus();
+        form.reset();
+      } catch {
+        statusEl.className = 'status ng';
+        statusEl.textContent = 'エラーが発生しました。時間をおいて再度お試しください。';
+        statusEl.hidden = false;
+        statusEl.focus();
+      } finally {
+        btn.disabled = false; btn.textContent = '送信する'; btn.removeAttribute('aria-disabled');
+      }
+    });
+  </script>
+</body>
+
+</html>
