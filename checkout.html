@@ -149,13 +149,19 @@
   <script>
     const API_BASE = 'https://facecare-checkout-api.onrender.com';
     const stripe = Stripe("pk_test_51Rmw7QCMxV2ai1wUSUZCzCq8DzzVFgSolAA8mSi1Fc1pxStb3M2wZFJ171mugSWJ9uo7P8rMtyeIGFR4UO52m1JJ00HmL3yUci");
-    const TEST_ITEM_ID = 'milk'; 
+    const TEST_ITEM_ID = 'milk'; // PRICE_MAP にある slug（toner/essence/milk/cream）
 
-    document.getElementById('checkout-form').addEventListener('submit', async (event) => {
+  // スクリプト読込確認
+  console.log('[checkout] script loaded');
+
+  const form = document.getElementById('checkout-form');
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    console.log('[checkout] submit handler fired');
 
     const paymentMethod = document.getElementById('payment').value;
     if (paymentMethod !== 'credit') {
+      console.log('[checkout] non-credit -> go thankyou');
       window.location.href = 'thankyou.html';
       return;
     }
@@ -174,25 +180,20 @@
       const text = await res.text();
       console.log('[checkout] status:', res.status, 'body:', text);
 
-      // JSONとして解釈（ダメなら空オブジェクト）
       let data = {};
       try { data = JSON.parse(text); } catch {}
-
-      if (!res.ok) {
-        throw new Error(data?.error || `HTTP ${res.status}`);
-      }
+      if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`);
 
       if (data.url) {
-        // Stripeが返すURLに遷移してもOK
+        console.log('[checkout] redirect url');
         window.location.href = data.url;
         return;
       }
       if (data.id) {
-        // こちらでもOK（sessionId指定）
+        console.log('[checkout] redirect with sessionId');
         await stripe.redirectToCheckout({ sessionId: data.id });
         return;
       }
-
       throw new Error('Invalid session response');
     } catch (err) {
       console.error('[checkout] error:', err);
