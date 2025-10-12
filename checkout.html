@@ -152,38 +152,52 @@
     const TEST_ITEM_ID = 'milk'; 
 
     document.getElementById('checkout-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
+    event.preventDefault();
 
-      const paymentMethod = document.getElementById('payment').value;
-      if (paymentMethod !== 'credit') {
-        // クレジット以外はダミーフロー
-        window.location.href = 'thankyou.html';
+    const paymentMethod = document.getElementById('payment').value;
+    if (paymentMethod !== 'credit') {
+      window.location.href = 'thankyou.html';
+      return;
+    }
+
+    try {
+      const url = `${API_BASE}/create-checkout-session`;
+      const payload = { items: [{ item_id: TEST_ITEM_ID, quantity: 1 }] };
+      console.log('[checkout] POST', url, payload);
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const text = await res.text();
+      console.log('[checkout] status:', res.status, 'body:', text);
+
+      // JSONとして解釈（ダメなら空オブジェクト）
+      let data = {};
+      try { data = JSON.parse(text); } catch {}
+
+      if (!res.ok) {
+        throw new Error(data?.error || `HTTP ${res.status}`);
+      }
+
+      if (data.url) {
+        // Stripeが返すURLに遷移してもOK
+        window.location.href = data.url;
+        return;
+      }
+      if (data.id) {
+        // こちらでもOK（sessionId指定）
+        await stripe.redirectToCheckout({ sessionId: data.id });
         return;
       }
 
-      try {
-        const res = await fetch(`${API_BASE}/create-checkout-session`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          // サーバは [{ item_id, quantity }] を期待
-          body: JSON.stringify({ items: [{ item_id: TEST_ITEM_ID, quantity: 1 }] })
-        });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data?.error || 'API error');
-
-        // どちらでもOK：sessionIdでリダイレクト or 返却された url へ遷移
-        if (data.id) {
-          await stripe.redirectToCheckout({ sessionId: data.id });
-        } else if (data.url) {
-          window.location.href = data.url;
-        } else {
-          throw new Error('Invalid session response');
-        }
-      } catch (err) {
-        console.error('Stripe checkout error:', err);
-        alert('決済ページの起動に失敗しました。時間をおいて再度お試しください。');
-      }
+      throw new Error('Invalid session response');
+    } catch (err) {
+      console.error('[checkout] error:', err);
+      alert('決済ページの起動に失敗しました。時間をおいて再度お試しください。');
+    }
     });
   </script>
 </body>
