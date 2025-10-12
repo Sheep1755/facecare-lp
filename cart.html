@@ -120,7 +120,9 @@
       <thead>
         <tr>
           <th scope="col">商品名</th>
-          <th scope="col">価格</th>
+          <th scope="col">単価</th>
+          <th scope="col">数量</th>
+          <th scope="col">小計</th>
           <th scope="col">削除</th>
         </tr>
       </thead>
@@ -140,81 +142,83 @@
   </footer>
 
   <script>
-  function getCartSafely(){
-    try{
-      const raw = localStorage.getItem('cart');
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    }catch(e){ console.warn('Cart parse error:', e); return []; }
-  }
+    function cartLoad() { try { const a = JSON.parse(localStorage.getItem('cart') || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
+    function cartSave(v) { localStorage.setItem('cart', JSON.stringify(v)); }
 
-  const JPY = new Intl.NumberFormat('ja-JP');
+    const JPY = new Intl.NumberFormat('ja-JP');
 
-  function toNumberYen(v){
-    if (typeof v === 'string') v = v.replace(/[¥,\s]/g,'');
-    const n = Number(v);
-    return Number.isFinite(n) ? n : 0;
-  }
+    function renderCart() {
+      const cart = cartLoad();
+      const tbody = document.querySelector('#cartTable tbody');
+      const totalDisplay = document.getElementById('totalPrice');
+      const goCheckout = document.getElementById('checkoutBtn');
 
-  function renderCart(){
-    const cart = getCartSafely();
-    const tbody = document.querySelector('#cartTable tbody');
-    const totalDisplay = document.getElementById('totalPrice');
-    const goCheckout = document.getElementById('checkoutBtn');
-    tbody.innerHTML = '';
-    let total = 0;
+      tbody.innerHTML = '';
+      let total = 0;
 
-    if (cart.length === 0){
-      const row = document.createElement('tr');
-      row.innerHTML = `<td colspan="3">カートに商品はありません。<a href="purchase.html">商品一覧へ</a></td>`;
-      tbody.appendChild(row);
-      goCheckout.setAttribute('aria-disabled','true');
-      goCheckout.setAttribute('tabindex','-1');
-      totalDisplay.textContent = '合計: ¥0';
-      return;
-    } else {
-      goCheckout.removeAttribute('aria-disabled');
-      goCheckout.removeAttribute('tabindex');
+      if (cart.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="5">カートに商品はありません。<a href="purchase.html">商品一覧へ</a></td>`;
+        tbody.appendChild(row);
+        goCheckout.setAttribute('aria-disabled', 'true'); goCheckout.setAttribute('tabindex', '-1');
+        totalDisplay.textContent = '合計: ¥0';
+        return;
+      } else {
+        goCheckout.removeAttribute('aria-disabled'); goCheckout.removeAttribute('tabindex');
+      }
+
+      cart.forEach((it, idx) => {
+        const qty = Number(it.qty || 1);
+        const unit = Number(it.price || 0);
+        const sub = unit * qty;
+        total += sub;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+      <td>${it.name ?? ''}</td>
+      <td>¥${JPY.format(unit)}</td>
+      <td>
+        <button type="button" class="qty-btn" data-i="${idx}" data-d="-1">-</button>
+        <span style="display:inline-block;min-width:2em;text-align:center;">${qty}</span>
+        <button type="button" class="qty-btn" data-i="${idx}" data-d="1">+</button>
+      </td>
+      <td>¥${JPY.format(sub)}</td>
+      <td><button type="button" class="delete-btn" data-index="${idx}">削除</button></td>
+    `;
+        tbody.appendChild(tr);
+      });
+
+      totalDisplay.textContent = `合計: ¥${JPY.format(total)}`;
     }
 
-    cart.forEach((item, index)=>{
-      const priceNum = toNumberYen(item.price);
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${item.name ?? ''}</td>
-        <td>¥${JPY.format(priceNum)}</td>
-        <td><button type="button" class="delete-btn" data-index="${index}">削除</button></td>`;
-      tbody.appendChild(row);
-      total += priceNum;
+    document.addEventListener('click', e => {
+      const del = e.target.closest('.delete-btn');
+      if (del) {
+        const i = Number(del.dataset.index);
+        const cart = cartLoad();
+        cart.splice(i, 1);
+        cartSave(cart); renderCart(); return;
+      }
+      const qtyBtn = e.target.closest('.qty-btn');
+      if (qtyBtn) {
+        const i = Number(qtyBtn.dataset.i), d = Number(qtyBtn.dataset.d);
+        const cart = cartLoad();
+        if (cart[i]) {
+          cart[i].qty = Math.max(1, (Number(cart[i].qty || 1) + d));
+          cartSave(cart); renderCart();
+        }
+      }
     });
 
-    totalDisplay.textContent = `合計: ¥${JPY.format(total)}`;
-  }
+    // 空なら購入ボタン無効
+    document.addEventListener('click', (e) => {
+      const go = e.target.closest('#checkoutBtn');
+      if (!go) return;
+      if (go.getAttribute('aria-disabled') === 'true') e.preventDefault();
+    });
 
-  function removeItem(index){
-    const cart = getCartSafely();
-    cart.splice(index, 1);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart();
-  }
-
-  // 削除はイベント委譲でOK
-  document.addEventListener('click', (e)=>{
-    const btn = e.target.closest('.delete-btn');
-    if (!btn) return;
-    const i = Number(btn.dataset.index);
-    if (Number.isInteger(i)) removeItem(i);
-  });
-
-  // 空なら購入ボタンを無効に（クリック防止）
-  document.addEventListener('click', (e)=>{
-    const go = e.target.closest('#checkoutBtn');
-    if (!go) return;
-    if (go.getAttribute('aria-disabled') === 'true') e.preventDefault();
-  });
-
-  document.addEventListener('DOMContentLoaded', renderCart);
-</script>
+    document.addEventListener('DOMContentLoaded', renderCart);
+  </script>
 
 </body>
 
