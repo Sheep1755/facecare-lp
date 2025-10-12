@@ -423,21 +423,6 @@
     }
     sizeButtons.forEach(btn => btn.addEventListener('click', () => setActiveSize(btn)));
 
-    // cart integration
-    function addToCart(itemName, unitPrice, qty) {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      for (let i = 0; i < qty; i++) { cart.push({ name: itemName, price: unitPrice }); }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert('カートに追加しました');
-    }
-    document.getElementById('addToCartBtn').addEventListener('click', () => {
-      const activeBtn = sizeButtons.find(b => b.getAttribute('aria-pressed') === 'true') || sizeButtons[0];
-      const unitPrice = Number(activeBtn.dataset.price || 0);
-      const sizeLabel = activeBtn.dataset.size + 'mL';
-      const qty = Math.max(1, Number(qtyInput.value || 1));
-      addToCart(`保湿化粧水 ${sizeLabel}`, unitPrice, qty);
-    });
-
     // default selection
     setActiveSize(sizeButtons[0]);
 
@@ -477,6 +462,66 @@
 }
   }
   </script>
+
+  <script>
+    /** ---- Minimal Cart Utils ---- **/
+    function cartLoad() {
+      try { const a = JSON.parse(localStorage.getItem('cart') || '[]'); return Array.isArray(a) ? a : []; }
+      catch (e) { return []; }
+    }
+    function cartSave(list) { localStorage.setItem('cart', JSON.stringify(list)); }
+    function cartAdd({ item_id, name, price, qty = 1 }) {
+      const cart = cartLoad();
+      const idx = cart.findIndex(it => it.item_id === item_id);
+      if (idx >= 0) cart[idx].qty = (cart[idx].qty || 1) + (qty || 1);
+      else cart.push({ item_id, name, price, qty });
+      cartSave(cart);
+    }
+  </script>
+
+  <script>
+(() => {
+  const baseId   = 'toner';             
+  const baseName = '保湿化粧水';
+
+  const addBtn   = document.getElementById('addToCartBtn');
+  const qtyInput = document.getElementById('qtyInput');
+
+  function getActiveSizeEl(){
+    return document.querySelector('.size[aria-pressed="true"]') || document.querySelector('.size');
+  }
+
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      const active = getActiveSizeEl();
+      const size   = active?.dataset.size || '100';                       
+      const price  = Number(active?.dataset.price || 0);                  
+      const qty    = Math.max(1, Number(qtyInput?.value || 1));
+
+      const item_id = `${baseId}-${size}`;
+      const name    = `${baseName} ${size}mL`;
+
+      cartAdd({ item_id, name, price, qty });
+      alert('カートに追加しました。');
+    });
+  }
+
+    const buyNow = document.getElementById('buyNowBtn');
+  if (buyNow) {
+    buyNow.addEventListener('click', (e) => {
+      e.preventDefault();
+      const active = getActiveSizeEl();
+      const size   = active?.dataset.size || '100';
+      const price  = Number(active?.dataset.price || 0);
+      const qty    = Math.max(1, Number(qtyInput?.value || 1));
+      cartAdd({ item_id: `${baseId}-${size}`, name: `${baseName} ${size}mL`, price, qty });
+      window.location.href = 'checkout.html';
+    });
+  }
+})();
+</script>
+
+
 </body>
 
 </html>
