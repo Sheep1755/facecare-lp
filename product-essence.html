@@ -480,11 +480,14 @@
   }
   </script>
 
+  <!-- === 共通ミニカート関数 + エッセンス商品追加処理（置換用） === -->
   <script>
-    /** ---- Minimal Cart Utils ---- **/
+    /** ---- Minimal Cart Utils (共通) ---- **/
     function cartLoad() {
-      try { const a = JSON.parse(localStorage.getItem('cart') || '[]'); return Array.isArray(a) ? a : []; }
-      catch (e) { return []; }
+      try {
+        const a = JSON.parse(localStorage.getItem('cart') || '[]');
+        return Array.isArray(a) ? a : [];
+      } catch (e) { return []; }
     }
     function cartSave(list) { localStorage.setItem('cart', JSON.stringify(list)); }
     function cartAdd({ item_id, name, price, qty = 1 }) {
@@ -494,50 +497,48 @@
       else cart.push({ item_id, name, price, qty });
       cartSave(cart);
     }
+
+    /** ---- 商品ページ専用: essence ---- **/
+    (() => {
+      const baseId = 'essence';                         // Stripe PRICE_MAP のキー接頭辞
+      const baseName = '無添加フェイスケア・エッセンス';
+
+      const addBtn = document.getElementById('addToCartBtn');
+      const buyNow = document.getElementById('buyNowBtn');
+      const qtyInput = document.getElementById('qtyInput');
+      const sizeBtns = [...document.querySelectorAll('.size')];
+
+      function getActiveSize() {
+        return sizeBtns.find(b => b.getAttribute('aria-pressed') === 'true') || sizeBtns[0];
+      }
+
+      // カートに入れる
+      addBtn?.addEventListener('click', () => {
+        const active = getActiveSize();
+        const size = active?.dataset.size || '30';      // ← エッセンスは 30mL が初期
+        const price = Number(active?.dataset.price || 0);
+        const qty = Math.max(1, Number(qtyInput?.value || 1));
+
+        const item_id = `${baseId}-${size}`;              // 例: "essence-30"
+        const name = `${baseName} ${size}mL`;
+
+        cartAdd({ item_id, name, price, qty });
+        alert(`${name} をカートに追加しました。`);
+      });
+
+      // 今すぐ購入
+      buyNow?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const active = getActiveSize();
+        const size = active?.dataset.size || '30';
+        const price = Number(active?.dataset.price || 0);
+        const qty = Math.max(1, Number(qtyInput?.value || 1));
+
+        cartAdd({ item_id: `${baseId}-${size}`, name: `${baseName} ${size}mL`, price, qty });
+        window.location.href = 'checkout.html';
+      });
+    })();
   </script>
-
-  <script>
-(() => {
-  const baseId   = 'essence';             
-  const baseName = '無添加フェイスケア・エッセンス';
-
-  const addBtn   = document.getElementById('addToCartBtn');
-  const qtyInput = document.getElementById('qtyInput');
-
-  function getActiveSizeEl(){
-    return document.querySelector('.size[aria-pressed="true"]') || document.querySelector('.size');
-  }
-
-  if (addBtn) {
-    addBtn.addEventListener('click', () => {
-      const active = getActiveSizeEl();
-      const size   = active?.dataset.size || '100';                       
-      const price  = Number(active?.dataset.price || 0);                 
-      const qty    = Math.max(1, Number(qtyInput?.value || 1));
-
-      const item_id = `${baseId}-${size}`;
-      const name    = `${baseName} ${size}mL`;
-
-      cartAdd({ item_id, name, price, qty });
-      alert('カートに追加しました。');
-    });
-  }
-
-  const buyNow = document.getElementById('buyNowBtn');
-  if (buyNow) {
-    buyNow.addEventListener('click', (e) => {
-      e.preventDefault();
-      const active = getActiveSizeEl();
-      const size   = active?.dataset.size || '100';
-      const price  = Number(active?.dataset.price || 0);
-      const qty    = Math.max(1, Number(qtyInput?.value || 1));
-      cartAdd({ item_id: `${baseId}-${size}`, name: `${baseName} ${size}mL`, price, qty });
-      window.location.href = 'checkout.html';
-    });
-  }
-})();
-</script>
-
 
 </body>
 

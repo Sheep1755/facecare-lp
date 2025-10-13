@@ -395,124 +395,65 @@
 
   <footer>&copy; 2025 フェイスケアブランド株式会社</footer>
 
+   <!-- === 共通ミニカート関数 + 商品追加処理 === -->
   <script>
-    // Reveal
-    (() => { const t = document.querySelectorAll('.reveal'); if (!('IntersectionObserver' in window) || !t.length) { t.forEach(e => e.classList.add('in')); return; } const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }) }, { threshold: .12 }); t.forEach(e => io.observe(e)); })();
-
-    // price & variants
-    const priceDisplay = document.getElementById('priceDisplay');
-    const metaPrice = document.getElementById('metaPrice');
-    const sizeButtons = [...document.querySelectorAll('.size')];
-    const qtyInput = document.getElementById('qtyInput');
-
-    function setActiveSize(btn) {
-      sizeButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
-      btn.setAttribute('aria-pressed', 'true');
-      const price = Number(btn.dataset.price || 0);
-      priceDisplay.textContent = '¥' + price.toLocaleString();
-      metaPrice.setAttribute('content', String(price));
-    }
-    sizeButtons.forEach(btn => btn.addEventListener('click', () => setActiveSize(btn)));
-
-    // default selection
-    setActiveSize(sizeButtons[0]);
-
-    // tabs a11y
-    const tabs = [...document.querySelectorAll('[role="tab"]')];
-    const panels = [...document.querySelectorAll('[role="tabpanel"]')];
-    function activateTab(id) {
-      tabs.forEach(t => t.setAttribute('aria-selected', String(t.id === id)));
-      panels.forEach(p => p.hidden = (p.getAttribute('aria-labelledby') !== id));
-    }
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => activateTab(tab.id));
-      tab.addEventListener('keydown', (e) => {
-        const i = tabs.indexOf(tab);
-        if (e.key === 'ArrowRight') tabs[(i + 1) % tabs.length].focus();
-        if (e.key === 'ArrowLeft') tabs[(i - 1 + tabs.length) % tabs.length].focus();
-      });
-    });
-  </script>
-
-  <!-- 構造化データ（変更なし） -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Product",
-    "name":"低刺激乳液",
-    "sku":"milk-basic",
-    "image": ["https://Sheep1755.github.io/facecare-lp/AdobeStock_491859925_Preview.jpeg"],
-    "description":"やさしくうるおいを守り、しっとりするのに軽い使い心地の無香料乳液。",
-    "brand":{"@type":"Brand","name":"フェイスケアブランド"},
-    "offers": {
-  "@type":"Offer",
-  "priceCurrency":"JPY",
-  "price":"2800",
-  "availability":"https://schema.org/InStock",
-  "url":"https://Sheep1755.github.io/facecare-lp/product-milk.html"
-}
+  /** ---- Minimal Cart Utils (共通) ---- **/
+  function cartLoad(){
+    try{
+      const a = JSON.parse(localStorage.getItem('cart') || '[]');
+      return Array.isArray(a) ? a : [];
+    }catch(e){ return []; }
   }
-  </script>
+  function cartSave(list){ localStorage.setItem('cart', JSON.stringify(list)); }
+  function cartAdd({ item_id, name, price, qty = 1 }){
+    const cart = cartLoad();
+    const idx = cart.findIndex(it => it.item_id === item_id);
+    if (idx >= 0) cart[idx].qty = (cart[idx].qty || 1) + (qty || 1);
+    else cart.push({ item_id, name, price, qty });
+    cartSave(cart);
+  }
 
-  <script>
-    /** ---- Minimal Cart Utils ---- **/
-    function cartLoad() {
-      try { const a = JSON.parse(localStorage.getItem('cart') || '[]'); return Array.isArray(a) ? a : []; }
-      catch (e) { return []; }
+  /** ---- 商品ページ専用: milk ---- **/
+  (() => {
+    const baseId = 'milk';              // Stripe Price Map のキー
+    const baseName = '低刺激乳液';     // 表示名
+
+    const addBtn = document.getElementById('addToCartBtn');
+    const buyNow = document.getElementById('buyNowBtn');
+    const qtyInput = document.getElementById('qtyInput');
+    const sizeBtns = [...document.querySelectorAll('.size')];
+
+    function getActiveSize(){
+      return sizeBtns.find(b => b.getAttribute('aria-pressed') === 'true') || sizeBtns[0];
     }
-    function cartSave(list) { localStorage.setItem('cart', JSON.stringify(list)); }
-    function cartAdd({ item_id, name, price, qty = 1 }) {
-      const cart = cartLoad();
-      const idx = cart.findIndex(it => it.item_id === item_id);
-      if (idx >= 0) cart[idx].qty = (cart[idx].qty || 1) + (qty || 1);
-      else cart.push({ item_id, name, price, qty });
-      cartSave(cart);
-    }
+
+    // 「カートに入れる」ボタン
+    addBtn?.addEventListener('click', () => {
+      const active = getActiveSize();
+      const size = active?.dataset.size || '100';
+      const price = Number(active?.dataset.price || 0);
+      const qty = Math.max(1, Number(qtyInput?.value || 1));
+      const item_id = `${baseId}-${size}`;
+      const name = `${baseName} ${size}mL`;
+
+      cartAdd({ item_id, name, price, qty });
+      alert(`${name} をカートに追加しました。`);
+    });
+
+    // 「今すぐ購入」ボタン
+    buyNow?.addEventListener('click', e => {
+      e.preventDefault();
+      const active = getActiveSize();
+      const size = active?.dataset.size || '100';
+      const price = Number(active?.dataset.price || 0);
+      const qty = Math.max(1, Number(qtyInput?.value || 1));
+      const item_id = `${baseId}-${size}`;
+      const name = `${baseName} ${size}mL`;
+
+      cartAdd({ item_id, name, price, qty });
+      window.location.href = 'checkout.html';
+    });
+  })();
   </script>
-
-  <script>
-
-    (() => {
-      const baseId = 'milk';
-      const baseName = '低刺激乳液';
-
-      const addBtn = document.getElementById('addToCartBtn');
-      const qtyInput = document.getElementById('qtyInput');
-
-      function getActiveSizeEl() {
-        return document.querySelector('.size[aria-pressed="true"]') || document.querySelector('.size');
-      }
-
-      if (addBtn) {
-        addBtn.addEventListener('click', () => {
-          const active = getActiveSizeEl();
-          const size = active?.dataset.size || '100';
-          const price = Number(active?.dataset.price || 0);
-          const qty = Math.max(1, Number(qtyInput?.value || 1));
-
-          const item_id = `${baseId}-${size}`;
-          const name = `${baseName} ${size}mL`;
-
-          cartAdd({ item_id, name, price, qty });
-          alert('カートに追加しました。');
-        });
-      }
-
-      const buyNow = document.getElementById('buyNowBtn');
-      if (buyNow) {
-        buyNow.addEventListener('click', (e) => {
-          e.preventDefault();
-          const active = getActiveSizeEl();
-          const size = active?.dataset.size || '100';
-          const price = Number(active?.dataset.price || 0);
-          const qty = Math.max(1, Number(qtyInput?.value || 1));
-          cartAdd({ item_id: `${baseId}-${size}`, name: `${baseName} ${size}mL`, price, qty });
-          window.location.href = 'checkout.html';
-        });
-      }
-    })();
-  </script>
-
 </body>
-
 </html>

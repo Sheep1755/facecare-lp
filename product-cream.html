@@ -447,11 +447,14 @@
     });
   </script>
 
+  <!-- === 共通ミニカート関数 + cream 商品追加処理 === -->
   <script>
-    /** ---- Minimal Cart Utils ---- **/
+    /** ---- Minimal Cart Utils (共通) ---- **/
     function cartLoad() {
-      try { const a = JSON.parse(localStorage.getItem('cart') || '[]'); return Array.isArray(a) ? a : []; }
-      catch (e) { return []; }
+      try {
+        const a = JSON.parse(localStorage.getItem('cart') || '[]');
+        return Array.isArray(a) ? a : [];
+      } catch (e) { return []; }
     }
     function cartSave(list) { localStorage.setItem('cart', JSON.stringify(list)); }
     function cartAdd({ item_id, name, price, qty = 1 }) {
@@ -461,52 +464,58 @@
       else cart.push({ item_id, name, price, qty });
       cartSave(cart);
     }
-  </script>
 
-  <script>
-    /** ---- product-milk 専用：ボタンの紐づけだけ ---- **/
+    /** ---- 商品ページ専用: cream (40g / 80g) ---- **/
     (() => {
-      const baseId = 'cream';             
+      const baseId = 'cream';
       const baseName = 'モイストリッチクリーム';
 
       const addBtn = document.getElementById('addToCartBtn');
-      const qtyInput = document.getElementById('qtyInput');
-
-      function getActiveSizeEl() {
-        return document.querySelector('.size[aria-pressed="true"]') || document.querySelector('.size');
-      }
-
-      if (addBtn) {
-        addBtn.addEventListener('click', () => {
-          const active = getActiveSizeEl();
-          const size = active?.dataset.size || '100';
-          const price = Number(active?.dataset.price || 0);
-          const qty = Math.max(1, Number(qtyInput?.value || 1));
-
-          const item_id = `${baseId}-${size}`;
-          const name = `${baseName} ${size}mL`;
-
-          cartAdd({ item_id, name, price, qty });
-          alert('カートに追加しました。');
-        });
-      }
-
       const buyNow = document.getElementById('buyNowBtn');
-      if (buyNow) {
-        buyNow.addEventListener('click', (e) => {
-          e.preventDefault();
-          const active = getActiveSizeEl();
-          const size = active?.dataset.size || '100';
-          const price = Number(active?.dataset.price || 0);
-          const qty = Math.max(1, Number(qtyInput?.value || 1));
-          cartAdd({ item_id: `${baseId}-${size}`, name: `${baseName} ${size}mL`, price, qty });
-          window.location.href = 'checkout.html';
-        });
+      const qtyInput = document.getElementById('qtyInput');
+      const sizeBtns = [...document.querySelectorAll('.size')];
+
+      function getActiveSizeBtn() {
+        return sizeBtns.find(b => b.getAttribute('aria-pressed') === 'true') || sizeBtns[0];
       }
+      /** data-size は "40g" / "80g" 前提
+       *  - item_id: cream-40 / cream-80（数字のみ）
+       *  - 表示名 : 40g / 80g（単位そのまま）
+       */
+      function parseSizeForIdAndLabel(btn) {
+        const raw = (btn?.dataset.size || '').trim();     // "40g"
+        const numeric = raw.replace(/\D/g, '');            // "40"
+        const label = raw || (numeric ? numeric + 'g' : '40g');
+        return { idPart: numeric || '40', label };
+      }
+
+      // 「カートに入れる」
+      addBtn?.addEventListener('click', () => {
+        const active = getActiveSizeBtn();
+        const { idPart, label } = parseSizeForIdAndLabel(active);
+        const price = Number(active?.dataset.price || 0);
+        const qty = Math.max(1, Number(qtyInput?.value || 1));
+
+        const item_id = `${baseId}-${idPart}`;           // cream-40 / cream-80
+        const name = `${baseName} ${label}`;          // モイストリッチクリーム 40g
+
+        cartAdd({ item_id, name, price, qty });
+        alert(`${name} をカートに追加しました。`);
+      });
+
+      // 「今すぐ購入」
+      buyNow?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const active = getActiveSizeBtn();
+        const { idPart, label } = parseSizeForIdAndLabel(active);
+        const price = Number(active?.dataset.price || 0);
+        const qty = Math.max(1, Number(qtyInput?.value || 1));
+
+        cartAdd({ item_id: `${baseId}-${idPart}`, name: `${baseName} ${label}`, price, qty });
+        window.location.href = 'checkout.html';
+      });
     })();
   </script>
-
-
 </body>
 
 </html>

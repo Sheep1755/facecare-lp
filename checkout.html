@@ -203,6 +203,19 @@
       }
     });
   </script>
+
+  <script>
+    /** ---- Minimal Cart Utils (checkout用) ---- **/
+    function cartLoad() {
+      try {
+        const a = JSON.parse(localStorage.getItem('cart') || '[]');
+        return Array.isArray(a) ? a : [];
+      } catch (e) {
+        console.warn('cartLoad error:', e);
+        return [];
+      }
+    }
+  </script>
 </body>
 
 </html>
