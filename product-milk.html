@@ -395,6 +395,72 @@
 
   <footer>&copy; 2025 フェイスケアブランド株式会社</footer>
 
+  <script>
+/* ===== 容量ボタンの切り替え処理 ===== */
+(() => {
+  const sizeButtons = document.querySelectorAll('.size');
+  const priceDisplay = document.getElementById('priceDisplay');
+  const metaPrice = document.getElementById('metaPrice');
+
+  sizeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // すべてのボタンを非選択に
+      sizeButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+
+      // 押されたボタンを選択状態に
+      btn.setAttribute('aria-pressed', 'true');
+
+      // 表示価格を更新
+      const price = btn.dataset.price || '0';
+      priceDisplay.textContent = `¥${Number(price).toLocaleString()}`;
+      metaPrice.content = price;
+    });
+  });
+})();
+
+/* ===== タブ切り替え処理 ===== */
+(() => {
+  const tabs = document.querySelectorAll('[role="tab"]');
+  const panels = document.querySelectorAll('[role="tabpanel"]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // 全タブ・全パネルを非表示に
+      tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+      panels.forEach(p => p.hidden = true);
+
+      // 押したタブを選択、対応パネルを表示
+      tab.setAttribute('aria-selected', 'true');
+      const panelId = tab.getAttribute('aria-controls');
+      const panel = document.getElementById(panelId);
+      if (panel) panel.hidden = false;
+    });
+  });
+})();
+</script>
+
+
+  <script>
+  // Reveal: 画面に入ったら .in を付けて表示
+  (() => {
+    const els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('in'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>
+
   <!-- === 共通ミニカート関数 + 商品追加処理 === -->
   <script>
     /** ---- Minimal Cart Utils (共通) ---- **/
