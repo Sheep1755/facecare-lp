@@ -150,8 +150,30 @@
     const API_BASE = 'https://facecare-checkout-api.onrender.com';
     const stripe = Stripe("pk_test_51Rmw7QCMxV2ai1wUSUZCzCq8DzzVFgSolAA8mSi1Fc1pxStb3M2wZFJ171mugSWJ9uo7P8rMtyeIGFR4UO52m1JJ00HmL3yUci");
 
-    // スクリプト読込確認
     console.log('[checkout] script loaded');
+
+    function cartLoad() {
+      try { const a = JSON.parse(localStorage.getItem('cart') || '[]'); return Array.isArray(a) ? a : []; }
+      catch (e) { console.warn('cartLoad error:', e); return []; }
+    }
+
+    async function postItemsOrSku(items, sku, qty) {
+      // items優先、無ければ productId で単発決済
+      const body = (items && items.length)
+        ? { items }
+        : (sku ? { productId: sku, quantity: Number(qty) || 1 } : null);
+
+      if (!body) throw new Error('No items');
+
+      const res = await fetch(`${API_BASE}/create-checkout-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`);
+      return data;
+    }
 
     const form = document.getElementById('checkout-form');
     form.addEventListener('submit', async (event) => {
@@ -160,43 +182,35 @@
 
       const paymentMethod = document.getElementById('payment').value;
       if (paymentMethod !== 'credit') {
-        console.log('[checkout] non-credit -> thankyou');
         window.location.href = 'thankyou.html';
         return;
       }
 
-      // 1) ローカルカートを集計（item_id ごとに数量合算）
-      const cart = cartLoad();
-      if (!cart.length) {
-        alert('カートが空です。'); location.href = 'cart.html'; return;
-      }
+      // 1) cart → items 生成（item_id / id / sku / productId の全部に対応）
+      const cartRaw = cartLoad();
+      console.log('[checkout] cart raw', cartRaw);
+
       const byId = {};
-      for (const it of cart) {
-        const id = it.item_id; const q = Number(it.qty || 1);
-        if (!id) continue;
-        byId[id] = (byId[id] || 0) + (Number.isFinite(q) ? q : 1);
+      for (const it of cartRaw) {
+        const key = it.item_id ?? it.id ?? it.sku ?? it.productId;
+        const q = Number(it.qty ?? it.quantity ?? 1) || 1;
+        if (!key) continue;
+        byId[key] = (byId[key] || 0) + q;
       }
       const items = Object.entries(byId).map(([item_id, quantity]) => ({ item_id, quantity }));
       console.log('[checkout] items payload', items);
 
+      // 2) URL パラメータから sku も拾う（商品ページ→checkout.html?sku=... の保険）
+      const u = new URL(location.href);
+      const sku = u.searchParams.get('sku');
+      const qty = u.searchParams.get('qty') || 1;
+
       try {
-        const url = `${API_BASE}/create-checkout-session`;
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items })
-        });
-
-        const text = await res.text();
-        console.log('[checkout] status:', res.status, 'body:', text);
-
-        let data = {}; try { data = JSON.parse(text); } catch { }
-        if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`);
-
-        if (data.url) { window.location.href = data.url; return; }
-        if (data.id) { await stripe.redirectToCheckout({ sessionId: data.id }); return; }
-
-        throw new Error('Invalid session response');
+        const data = await postItemsOrSku(items, sku, qty);
+        console.log('[checkout] resp', data);
+        if (data.url) { window.location.href = data.url; }
+        else if (data.id) { await stripe.redirectToCheckout({ sessionId: data.id }); }
+        else { throw new Error('Invalid session response'); }
       } catch (err) {
         console.error('[checkout] error:', err);
         alert('決済ページの起動に失敗しました。時間をおいて再度お試しください。');
