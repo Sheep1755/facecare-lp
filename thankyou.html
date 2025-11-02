@@ -7,14 +7,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Thank you は検索向きではないため noindex 推奨 -->
   <meta name="robots" content="noindex, nofollow, noarchive">
-
-  <!-- SEO -->
   <meta name="description" content="ご注文が完了しました。内容の確認メールをお送りしましたのでご確認ください。">
   <link rel="canonical" href="https://Sheep1755.github.io/facecare-lp/thankyou.html">
 
-  <!-- Open Graph -->
   <meta property="og:site_name" content="フェイスケアブランド">
   <meta property="og:title" content="ご購入ありがとうございました｜フェイスケアブランド">
   <meta property="og:description" content="ご注文が完了しました。内容の確認メールをお送りしましたのでご確認ください。">
@@ -25,14 +21,14 @@
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="ja_JP">
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ご購入ありがとうございました｜フェイスケアブランド">
   <meta name="twitter:description" content="ご注文が完了しました。内容の確認メールをお送りしましたのでご確認ください。">
   <meta name="twitter:image" content="https://Sheep1755.github.io/facecare-lp/assets/ogp/ogp-thanks.jpg">
 
   <link rel="stylesheet" href="styles/site.css">
-  <!-- GA4 base -->
+
+  <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8H38073ETL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -40,6 +36,7 @@
     gtag('js', new Date());
     gtag('config', 'G-8H38073ETL');
   </script>
+
   <style>
     body {
       font-family: 'Helvetica Neue', sans-serif;
@@ -54,11 +51,6 @@
       background-color: #f8f9fa;
       padding: 20px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.4em;
     }
 
     main {
@@ -109,15 +101,13 @@
     &copy; 2025 フェイスケアブランド株式会社
   </footer>
 
-  <!-- これだけ残す（</footer> の後～ </body> の前） -->
   <script>
     (function () {
-      // セッション中の二重送信防止
       if (sessionStorage.getItem('ga_purchase_fired')) return;
 
-      // localStorage の cart を読んで GA4 形式に整形
       let cart = [];
       try { cart = JSON.parse(localStorage.getItem('cart')) || []; } catch (e) { }
+
       const items = cart.map((it, i) => ({
         item_id: 'SKU-' + (i + 1),
         item_name: it.name || '商品',
@@ -126,22 +116,24 @@
       }));
       const value = items.reduce((s, it) => s + it.price * it.quantity, 0);
 
-      // 送信
-      if (typeof gtag === 'function') {
-        gtag('event', 'purchase', {
-          currency: 'JPY',
-          value: value,
-          transaction_id: String(Date.now()),
-          items: items
-        });
-        sessionStorage.setItem('ga_purchase_fired', '1');
-      }
+      // 少し遅延して gtag を安全に呼ぶ
+      setTimeout(() => {
+        if (typeof gtag === 'function') {
+          gtag('event', 'purchase', {
+            currency: 'JPY',
+            value: value,
+            transaction_id: String(Date.now()),
+            items: items
+          });
+          sessionStorage.setItem('ga_purchase_fired', '1');
+        }
 
-      // Thank you 到達後はカートを空に
-      localStorage.removeItem('cart');
+        // GA送信後にカートをクリア
+        localStorage.removeItem('cart');
+        console.log('Cart cleared after purchase');
+      }, 500);
     })();
   </script>
-
 </body>
 
 </html>
