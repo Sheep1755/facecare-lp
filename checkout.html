@@ -157,45 +157,72 @@
       catch (e) { console.warn('cartLoad error:', e); return []; }
     }
 
-    // 柔軟にキーを抽出：平坦キー/別名/ネスト/全角数字対応
-    function extractKey(it) {
-      // 文字列だけの要素にも対応
+    /* ====== /diag を使った動的SKUマッピング ====== */
+    let diagCache = null;
+    async function getDiag() {
+      if (diagCache) return diagCache;
+      try {
+        const res = await fetch(`${API_BASE}/diag`);
+        diagCache = await res.json();
+      } catch (e) {
+        console.warn('[checkout] failed to fetch /diag', e);
+        diagCache = {};
+      }
+      return diagCache;
+    }
+
+    async function guessSkuFromName(name) {
+      if (!name) return null;
+      const n = name.normalize ? name.normalize('NFKC') : name; // 全角→半角
+
+      const diag = await getDiag();
+      const keys = Array.isArray(diag?.priceMapKeys) ? diag.priceMapKeys : [];
+      const lower = n.toLowerCase();
+
+      // 1) 数値（容量）で強めに一致（例: 150, 300, 30, 60...）
+      const m = n.match(/(\d+)/);
+      if (m) {
+        const num = String(parseInt(m[1], 10));
+        const sized = keys.filter(k => k.includes(num));
+        if (sized.length === 1) return sized[0];           // 一意なら即採用
+        if (sized.length > 1) {
+          // 数値一致候補が複数なら、名前に含まれるファミリー名で絞り込み
+          const narrowed = sized.filter(k => lower.includes(k.split('-')[0].toLowerCase()));
+          if (narrowed.length) return narrowed[0];
+          return sized[0];                                  // どれも該当しなければ先頭
+        }
+      }
+
+      // 2) ファミリー名でゆるく一致（例: "toner", "essence", "milk", "cream"）
+      for (const key of keys) {
+        const family = key.split('-')[0];
+        if (family && lower.includes(family.toLowerCase())) return key;
+      }
+
+      // 3) 最後の保険としてキー文字列そのものの部分一致
+      for (const key of keys) {
+        if (lower.includes(key.toLowerCase())) return key;
+      }
+
+      return null;
+    }
+
+
+    // 平坦キー/別名/ネスト/名称推定（/diag）の順に解決
+    async function extractKey(it) {
       if (typeof it === 'string' && it.trim()) return it.trim();
 
-      // 直接キー候補（camel/snake）
       const direct =
         it.item_id ?? it.itemId ??
         it.productId ?? it.product_id ??
         it.id ?? it.sku;
       if (typeof direct === 'string' && direct.trim()) return direct.trim();
 
-      // name からSKU推定（全角→半角 正規化して判定）
       if (typeof it.name === 'string') {
-        // 全角英数字・記号を半角化（NFKC）
-        const n = it.name.normalize ? it.name.normalize('NFKC') : it.name;
-        // ざっくりカテゴリを判定
-        const isToner = /化粧水|トナー/i.test(n);              // 保湿化粧水
-        const isEssence = /エッセンス|美容液/i.test(n);          // 無添加フェイスケア・エッセンス
-        const isMilk = /乳液/i.test(n);                       // 低刺激乳液
-        const isCream = /クリーム/i.test(n);                   // モイストリッチクリーム
-        // 容量数値（ml/g）を取得
-        const m = n.match(/(\d+)\s*(ml|mL|ML|g|G)?/);
-        const size = m ? parseInt(m[1], 10) : undefined;
-
-        if (isToner && size === 150) return 'toner-150';
-        if (isToner && size === 300) return 'toner-300';
-
-        if (isEssence && size === 30) return 'essence-30';
-        if (isEssence && size === 60) return 'essence-60';
-
-        if (isMilk && size === 100) return 'milk-100';
-        if (isMilk && size === 200) return 'milk-200';
-
-        if (isCream && size === 40) return 'cream-40';
-        if (isCream && size === 80) return 'cream-80';
+        const guess = await guessSkuFromName(it.name);
+        if (guess) return guess;
       }
 
-      // よくあるネスト
       const nested =
         it.product?.id ?? it.product?.sku ??
         it.item?.id ?? it.item?.sku ??
@@ -208,25 +235,6 @@
     function extractQty(it) {
       const n = Number(it.qty ?? it.quantity ?? it.count ?? it.q ?? it.num ?? it.amount);
       return Number.isFinite(n) && n > 0 ? Math.floor(n) : 1;
-    }
-
-    // /diag から PRICE_MAP のキーを取り、cart の文字列から推定（最後の保険）
-    async function fallbackGuessKeysFromDiag(cartRaw) {
-      try {
-        const res = await fetch(`${API_BASE}/diag`);
-        const diag = await res.json();
-        const keys = Array.isArray(diag.priceMapKeys) ? diag.priceMapKeys : [];
-        const blob = JSON.stringify(cartRaw);
-        const hits = [];
-        for (const k of keys) {
-          if (blob.includes(k)) hits.push({ item_id: k, quantity: 1 });
-        }
-        if (hits.length) console.log('[checkout] fallback guessed items:', hits);
-        return hits;
-      } catch (e) {
-        console.warn('[checkout] fallback diag failed', e);
-        return [];
-      }
     }
 
     async function postItemsOrSku(items, sku, qty) {
@@ -254,13 +262,13 @@
       const paymentMethod = document.getElementById('payment').value;
       if (paymentMethod !== 'credit') { window.location.href = 'thankyou.html'; return; }
 
-      // 1) cart → items（超・柔軟抽出）
+      // 1) cart → items（extractKey は async なので await）
       const cartRaw = cartLoad();
       console.log('[checkout] cart raw', cartRaw);
 
       const byId = {};
       for (const it of cartRaw) {
-        const key = extractKey(it);
+        const key = await extractKey(it);
         const q = extractQty(it);
         if (!key) continue;
         byId[key] = (byId[key] || 0) + q;
@@ -273,12 +281,6 @@
       const sku = u.searchParams.get('sku');
       const qty = u.searchParams.get('qty') || 1;
 
-      // 3) items が空 → /diag のキーで推定（最終保険）
-      if ((!items || !items.length) && cartRaw.length) {
-        const guessed = await fallbackGuessKeysFromDiag(cartRaw);
-        if (guessed.length) items = guessed;
-      }
-
       try {
         const data = await postItemsOrSku(items, sku, qty);
         console.log('[checkout] resp', data);
@@ -290,19 +292,6 @@
         alert('決済ページの起動に失敗しました。時間をおいて再度お試しください。');
       }
     });
-  </script>
-
-  <script>
-    /** ---- Minimal Cart Utils (checkout用) ---- **/
-    function cartLoad() {
-      try {
-        const a = JSON.parse(localStorage.getItem('cart') || '[]');
-        return Array.isArray(a) ? a : [];
-      } catch (e) {
-        console.warn('cartLoad error:', e);
-        return [];
-      }
-    }
   </script>
 
   <script>
@@ -341,8 +330,6 @@
         });
       });
 
-      // 3) 想定外のJSエラー可視化
-      window.addEventListener("error", e => console.error("[window.onerror]", e.message, e.filename, e.lineno));
     })();
   </script>
 
