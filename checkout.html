@@ -159,17 +159,27 @@
 
     // 柔軟にキーを抽出：平坦キー/別名/ネスト対応
     function extractKey(it) {
-      // 文字列だけの要素にも対応（["toner-150", ...] など）
+      // 文字列のみの配列にも対応
       if (typeof it === 'string' && it.trim()) return it.trim();
 
-      // 直接候補（camelCase / snake_case の両方を網羅）
-      const direct =
-        it.item_id ?? it.itemId ??
-        it.productId ?? it.product_id ??
-        it.id ?? it.sku;
+      // 直接キー候補
+      const direct = it.item_id ?? it.itemId ?? it.productId ?? it.product_id ?? it.id ?? it.sku;
       if (typeof direct === 'string' && direct.trim()) return direct.trim();
 
-      // よくあるネスト
+      // name の中からSKU推定（保険）
+      if (typeof it.name === 'string') {
+        const n = it.name;
+        if (n.includes('150')) return 'toner-150';
+        if (n.includes('300')) return 'toner-300';
+        if (n.includes('30')) return 'essence-30';
+        if (n.includes('60')) return 'essence-60';
+        if (n.includes('100')) return 'milk-100';
+        if (n.includes('200')) return 'milk-200';
+        if (n.includes('40')) return 'cream-40';
+        if (n.includes('80')) return 'cream-80';
+      }
+
+      // ネスト構造も念のため対応
       const nested =
         it.product?.id ?? it.product?.sku ??
         it.item?.id ?? it.item?.sku ??
@@ -178,6 +188,7 @@
 
       return null;
     }
+
     function extractQty(it) {
       const n = Number(it.qty ?? it.quantity ?? it.count ?? it.q ?? it.num ?? it.amount);
       return Number.isFinite(n) && n > 0 ? Math.floor(n) : 1;
