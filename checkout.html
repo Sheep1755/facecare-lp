@@ -157,8 +157,52 @@
       catch (e) { console.warn('cartLoad error:', e); return []; }
     }
 
+    // 柔軟にキーを抽出：平坦キー/別名/ネスト対応
+    function extractKey(it) {
+      // 文字列だけの要素にも対応（["toner-150", ...] など）
+      if (typeof it === 'string' && it.trim()) return it.trim();
+
+      // 直接候補（camelCase / snake_case の両方を網羅）
+      const direct =
+        it.item_id ?? it.itemId ??
+        it.productId ?? it.product_id ??
+        it.id ?? it.sku;
+      if (typeof direct === 'string' && direct.trim()) return direct.trim();
+
+      // よくあるネスト
+      const nested =
+        it.product?.id ?? it.product?.sku ??
+        it.item?.id ?? it.item?.sku ??
+        it.detail?.id ?? it.detail?.sku;
+      if (typeof nested === 'string' && nested.trim()) return nested.trim();
+
+      return null;
+    }
+    function extractQty(it) {
+      const n = Number(it.qty ?? it.quantity ?? it.count ?? it.q ?? it.num ?? it.amount);
+      return Number.isFinite(n) && n > 0 ? Math.floor(n) : 1;
+    }
+
+    // /diag から PRICE_MAP のキーを取り、cart の文字列から推定（最後の保険）
+    async function fallbackGuessKeysFromDiag(cartRaw) {
+      try {
+        const res = await fetch(`${API_BASE}/diag`);
+        const diag = await res.json();
+        const keys = Array.isArray(diag.priceMapKeys) ? diag.priceMapKeys : [];
+        const blob = JSON.stringify(cartRaw);
+        const hits = [];
+        for (const k of keys) {
+          if (blob.includes(k)) hits.push({ item_id: k, quantity: 1 });
+        }
+        if (hits.length) console.log('[checkout] fallback guessed items:', hits);
+        return hits;
+      } catch (e) {
+        console.warn('[checkout] fallback diag failed', e);
+        return [];
+      }
+    }
+
     async function postItemsOrSku(items, sku, qty) {
-      // items優先、無ければ productId で単発決済
       const body = (items && items.length)
         ? { items }
         : (sku ? { productId: sku, quantity: Number(qty) || 1 } : null);
@@ -181,36 +225,39 @@
       console.log('[checkout] submit handler fired');
 
       const paymentMethod = document.getElementById('payment').value;
-      if (paymentMethod !== 'credit') {
-        window.location.href = 'thankyou.html';
-        return;
-      }
+      if (paymentMethod !== 'credit') { window.location.href = 'thankyou.html'; return; }
 
-      // 1) cart → items 生成（item_id / id / sku / productId の全部に対応）
+      // 1) cart → items（超・柔軟抽出）
       const cartRaw = cartLoad();
       console.log('[checkout] cart raw', cartRaw);
 
       const byId = {};
       for (const it of cartRaw) {
-        const key = it.item_id ?? it.id ?? it.sku ?? it.productId;
-        const q = Number(it.qty ?? it.quantity ?? 1) || 1;
+        const key = extractKey(it);
+        const q = extractQty(it);
         if (!key) continue;
         byId[key] = (byId[key] || 0) + q;
       }
-      const items = Object.entries(byId).map(([item_id, quantity]) => ({ item_id, quantity }));
+      let items = Object.entries(byId).map(([item_id, quantity]) => ({ item_id, quantity }));
       console.log('[checkout] items payload', items);
 
-      // 2) URL パラメータから sku も拾う（商品ページ→checkout.html?sku=... の保険）
+      // 2) URL パラメータ ?sku=... も保険で拾う
       const u = new URL(location.href);
       const sku = u.searchParams.get('sku');
       const qty = u.searchParams.get('qty') || 1;
 
+      // 3) items が空 → /diag のキーで推定（最終保険）
+      if ((!items || !items.length) && cartRaw.length) {
+        const guessed = await fallbackGuessKeysFromDiag(cartRaw);
+        if (guessed.length) items = guessed;
+      }
+
       try {
         const data = await postItemsOrSku(items, sku, qty);
         console.log('[checkout] resp', data);
-        if (data.url) { window.location.href = data.url; }
-        else if (data.id) { await stripe.redirectToCheckout({ sessionId: data.id }); }
-        else { throw new Error('Invalid session response'); }
+        if (data.url) window.location.href = data.url;
+        else if (data.id) await stripe.redirectToCheckout({ sessionId: data.id });
+        else throw new Error('Invalid session response');
       } catch (err) {
         console.error('[checkout] error:', err);
         alert('決済ページの起動に失敗しました。時間をおいて再度お試しください。');
