@@ -157,29 +157,45 @@
       catch (e) { console.warn('cartLoad error:', e); return []; }
     }
 
-    // 柔軟にキーを抽出：平坦キー/別名/ネスト対応
+    // 柔軟にキーを抽出：平坦キー/別名/ネスト/全角数字対応
     function extractKey(it) {
-      // 文字列のみの配列にも対応
+      // 文字列だけの要素にも対応
       if (typeof it === 'string' && it.trim()) return it.trim();
 
-      // 直接キー候補
-      const direct = it.item_id ?? it.itemId ?? it.productId ?? it.product_id ?? it.id ?? it.sku;
+      // 直接キー候補（camel/snake）
+      const direct =
+        it.item_id ?? it.itemId ??
+        it.productId ?? it.product_id ??
+        it.id ?? it.sku;
       if (typeof direct === 'string' && direct.trim()) return direct.trim();
 
-      // name の中からSKU推定（保険）
+      // name からSKU推定（全角→半角 正規化して判定）
       if (typeof it.name === 'string') {
-        const n = it.name;
-        if (n.includes('150')) return 'toner-150';
-        if (n.includes('300')) return 'toner-300';
-        if (n.includes('30')) return 'essence-30';
-        if (n.includes('60')) return 'essence-60';
-        if (n.includes('100')) return 'milk-100';
-        if (n.includes('200')) return 'milk-200';
-        if (n.includes('40')) return 'cream-40';
-        if (n.includes('80')) return 'cream-80';
+        // 全角英数字・記号を半角化（NFKC）
+        const n = it.name.normalize ? it.name.normalize('NFKC') : it.name;
+        // ざっくりカテゴリを判定
+        const isToner = /化粧水|トナー/i.test(n);              // 保湿化粧水
+        const isEssence = /エッセンス|美容液/i.test(n);          // 無添加フェイスケア・エッセンス
+        const isMilk = /乳液/i.test(n);                       // 低刺激乳液
+        const isCream = /クリーム/i.test(n);                   // モイストリッチクリーム
+        // 容量数値（ml/g）を取得
+        const m = n.match(/(\d+)\s*(ml|mL|ML|g|G)?/);
+        const size = m ? parseInt(m[1], 10) : undefined;
+
+        if (isToner && size === 150) return 'toner-150';
+        if (isToner && size === 300) return 'toner-300';
+
+        if (isEssence && size === 30) return 'essence-30';
+        if (isEssence && size === 60) return 'essence-60';
+
+        if (isMilk && size === 100) return 'milk-100';
+        if (isMilk && size === 200) return 'milk-200';
+
+        if (isCream && size === 40) return 'cream-40';
+        if (isCream && size === 80) return 'cream-80';
       }
 
-      // ネスト構造も念のため対応
+      // よくあるネスト
       const nested =
         it.product?.id ?? it.product?.sku ??
         it.item?.id ?? it.item?.sku ??
