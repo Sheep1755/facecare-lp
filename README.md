@@ -1,114 +1,129 @@
-# フェイスケアブランド LP（ポートフォリオ）
+# 🧴 フェイスケアブランド LP（ポートフォリオ）
 
-“**必要なものだけ**” をコンセプトにした化粧品LPのデモです。  
-**SEO/OGP/GA4/アクセシビリティ/モバイル最適化**まで最小実装をカバーし、**短納期・小規模案件**にも対応できる構成にしています。
-
-- **Live（デモURL）**：https://Sheep1755.github.io/facecare-lp/
-- **お問い合わせ**：you@example.com ／ @yourname（SNS）
-
-> このリポジトリはポートフォリオです。実運用時は画像や文言、計測IDを本番用に差し替えます。
+“必要なものだけ” をコンセプトにした **化粧品ブランドLPのデモサイト** です。  
+SEO / OGP / GA4 / アクセシビリティ / モバイル最適化 まで最小構成で実装し、  
+**短端期・小規模案件（1〜5万円規模）** に対応できる構成になっています。
 
 ---
 
-## 1. ご依頼いただくことで得られる価値
+## 🌐 デモ・連絡先
 
-- **すぐ立ち上がる**：静的HTML/CSS/JSで軽量。Pages/Netlify/Vercelに即時デプロイ  
-- **効果が見える**：**GA4**で**Thank You到達（purchase）**まで計測配線済み  
-- **SNSで綺麗にシェア**：OGP/Twitter Card整備、カード崩れを回避  
-- **検索の土台**：`title/description/canonical`、JSON‑LD（**Organization / Product+Offer**）  
-- **スマホ優先**：ヒーローに `srcset/sizes`、CLS対策（`width/height`・`fetchpriority`）  
-- **使いやすいUI**：上品ナビ（フォーカス/アンダーライン）、USPバー、空状態/バリデーション
-
-> ご予算・納期に応じて**柔軟にスコープ設計**します（要件確定後にお見積り）。
+- **Live（デモURL）**：  
+  https://Sheep1755.github.io/facecare-lp/
+- **お問い合わせ**：  
+  you@example.com ／ [@yourname](https://twitter.com/yourname)
+- **本リポジトリはポートフォリオです。**  
+  実運用時は画像・文言・GA/Stripeキーなどを本番用に差し替えてください。
 
 ---
 
-## 2. 主な機能（静的＋動的）
+## 🎯 このLPで得られる価値
 
-- **共通ヘッダー/ナビ**、**USPバー**、**ヒーロー：クロスフェード＋CTA自動切替**
-- **製品一覧/詳細**（`Product/Offer` microdata、`aria-live` で価格更新）
-- **カート**：`localStorage` で数量・小計・合計を管理
-- **チェックアウト（デモ）**：**Stripe Checkout** による決済遷移（*サーバ別ホスト*）
-- **Thank You**：**GA4 `purchase`** 送信、`noindex`
-
----
-
-## 3. 公開情報（GitHub Pages + 別ホストAPI）
-
-このLPは **GitHub Pages** で公開し、**決済デモ（Stripe）用のAPIを別ホスト**に分離しています。  
-小規模サイトからフォーム/決済まで、段階的に拡張できる構成です。
-
-- 公開URL: https://USERNAME.github.io/REPO/
-- ソースコード: https://github.com/USERNAME/REPO
-- 決済API（例）: https://your-checkout-api.onrender.com
-
-> テストカード番号（Stripe）：`4242 4242 4242 4242` / 任意の未来日 / 任意CVC / 任意郵便番号
+| 特徴 | 内容 |
+|------|------|
+| 🚀 すぐ立ち上がる | 静的HTML/CSS/JS構成で軽量。Pages/Netlify/Vercel即時デプロイ可能。 |
+| 📊 効果が見える | GA4で **Thank You到達（purchaseイベント）** まで計測準備済み。 |
+| 💬 SNSで美しくシェア | OGP/Twitter Card完全対応。シェア時のカード崩れを防止。 |
+| 🔍 検索の土台 | title / description / canonical / JSON-LD（Organization, Product+Offer）実装済み。 |
+| 📱 スマホ優先 | srcset/sizes対応・CLS対策・ヒーローlazy最適化済み。 |
+| 🦯 UXに配慮 | アクセシブルなナビゲーション、USPバー、バリデーション、空カート表示など。 |
 
 ---
 
-## 4. デプロイ手順
+## ⚙️ 主な機能（静的＋動的）
 
-### 4.1 GitHub Pages（静的）
-1. `Settings` → `Pages` → Branch: `main` を選択（`/root`）  
-2. `<head>` の `https://Sheep1755.github.io/facecare-lp/` を公開URLに置換（`canonical`/`og:url`/`twitter:image` 等）  
-3. OGP画像（1200×630）・faviconを配置
-
-### 4.2 Stripe API（Renderの例）
-1. Render で「New Web Service」→ Node でリポジトリを指定  
-2. 環境変数を設定：  
-   - `STRIPE_SECRET_KEY=sk_test_...`  
-   - `ALLOW_ORIGIN=https://USERNAME.github.io/REPO`  
-   - `SUCCESS_URL=https://USERNAME.github.io/REPO/thankyou.html`  
-   - `CANCEL_URL=https://USERNAME.github.io/REPO/cart.html`  
-   - `PRICE_MAP=essence-30ml:price_123,toner-150ml:price_456`  
-3. デプロイ後、`/health` が 200 を返すことを確認  
-4. フロント側（`checkout.html`）の `API_BASE` を Render のURLに差し替え
-
-> **秘密鍵は必ず環境変数で管理**し、リポジトリにはコミットしません。
+| 区分 | 機能 |
+|------|------|
+| 🧱 共通UI | ヘッダー/ナビゲーション・USPバー・ヒーロースライダー（クロスフェード） |
+| 🛍 製品一覧/詳細 | Product + Offer microdata対応・動的価格更新（aria-live） |
+| 🗳 カート | localStorageで商品・数量・小計を永続管理 |
+| 💳 チェックアウト | Stripe Checkout API連携（Renderホスト）／/diagによる動的SKUマッピング |
+| ✅ Thank You | GA4 purchase送信、cartクリア、noindex指定済み |
+| 🌐 OGP/SEO | meta, twitter, ogp画像（1200×630）整備済み |
 
 ---
 
-## 5. GA4（最小イベント）
+## ☁️ 公開構成
 
-- 実装済み：`purchase`（Thank You）
-- 追加推奨：`add_to_cart`（商品追加）/ `begin_checkout`（決済開始）/ `view_item` / `view_item_list` / `select_item`
+| 要素 | 内容 |
+|------|------|
+| **フロントエンド** | GitHub Pages（静的） |
+| **決済API** | Render (Node + Express + Stripe SDK) |
+| **CORS許可** | ALLOW_ORIGIN=https://Sheep1755.github.io/facecare-lp/ |
+| **デモ決済** | Stripe test mode（テストカード 4242 4242 4242 4242） |
 
+この構成により、**静的LP → 決済までワンストップ動作** を実現。  
+小規模サイトからフォーム・EC機能まで段階的に拡張可能です。
+
+---
+
+## 🚀 デプロイ手順
+
+### 1. GitHub Pages（静的サイト）
+1. `Settings → Pages → Branch: main (/root)` を選択  
+2. `<head>` 内のURLを公開URL（`https://Sheep1755.github.io/facecare-lp/`）に置換  
+3. OGP画像（1200×630）・favicon配置  
+4. コミット＆プッシュ後、1〜2分で反映完了  
+
+### 2. Stripe API（Render）
+1. Renderで「New Web Service」→ Nodeリポジトリを選択  
+2. 環境変数を設定：
+
+```bash
+STRIPE_SECRET_KEY=sk_test_********
+ALLOW_ORIGIN=https://Sheep1755.github.io/facecare-lp
+SUCCESS_URL=https://Sheep1755.github.io/facecare-lp/thankyou.html
+CANCEL_URL=https://Sheep1755.github.io/facecare-lp/cart.html
+PRICE_MAP_JSON={"toner-150":"price_xxx","toner-300":"price_xxx", ...}
+```
+
+3. `/health` が200を返すことを確認  
+4. フロント側の `checkout.html` にある `API_BASE` をRender URLへ差し替え  
+
+> 🔐 Stripe秘密鍵は環境変数で管理し、リポジトリに含めないでください。
+
+---
+
+## 📈 GA4イベント（実装済）
+
+| イベント | 発火場所 | 備考 |
+|-----------|-----------|------|
+| `purchase` | Thank You | cart内容を送信し、購入金額を集計 |
+| *(追加推奨)* | `add_to_cart`, `begin_checkout`, `view_item` | 構造を共通化し、今後拡張可 |
+
+実装例：
 ```js
-gtag?.('event','add_to_cart',{
+gtag('event','add_to_cart',{
   currency:'JPY',
-  value: 2900,
-  items:[{ item_id:'essence-30ml', item_name:'エッセンス 30mL', price:2900, quantity:1 }]
+  value:2900,
+  items:[{ item_id:'essence-30', item_name:'エッセンス 30mL', price:2900, quantity:1 }]
 });
 ```
 
 ---
 
-## 6. ディレクトリ
+## 🗂 ディレクトリ構成
 
 ```
 /
-├─ index.html            # トップ（ヒーロー＋FAQ）
-├─ purchase.html         # 製品一覧
-├─ product-*.html        # 製品詳細（Product/Offer microdata）
-├─ cart.html / checkout.html / thankyou.html
-├─ site.css              # 共通スタイル（--accent）
-├─ assets/               # 画像（hero/ogp/logo 等）
-└─ server/               # （任意）サーバ側コードの参考置き場
+├─ index.html          # トップページ（ヒーロー＋FAQ）
+├─ purchase.html       # 製品一覧
+├─ product-*.html      # 各製品詳細
+├─ cart.html           # カート
+├─ checkout.html       # Stripeチェックアウト連携
+├─ thankyou.html       # 購入完了ページ（GA4+cartクリア）
+├─ styles/site.css     # 共通スタイル
+├─ assets/             # 画像・OGP・faviconなど
+└─ server/             # Stripe API（Render用参考コード）
 ```
 
 ---
 
-## 7. 品質チェック（納品前）
+## ✅ 品質チェック（納品前確認）
 
-- [ ] Lighthouse：Performance / Accessibility / SEO  
-- [ ] OGP/Twitter：共有プレビュー確認  
-- [ ] GA4：**Realtime/DebugView** でイベント確認  
-- [ ] `https://Sheep1755.github.io/facecare-lp/` 置換漏れなし（`canonical/og:url/twitter:image`）
+| 項目 | チェック方法 |
+|------|---------------|
+| 💡 パフォーマンス | Lighthouse：Performance 90以上 |
+| ♿ アクセシビリティ | コントラスト・aria・キーボード操作確認 |
+| 🔍 SEO | title/description/canonical漏れな
 
----
-
-## 8. 免責
-
-- 画像はダミー（Adobe Stock等）です。商用利用時は差し替えます。  
-- 本リポジトリは学習・ポートフォリオ目的。二次配布はご相談ください。  
-- © 2025 フェイスケアブランド（ポートフォリオ）
